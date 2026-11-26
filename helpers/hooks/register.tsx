@@ -60,7 +60,9 @@ let lastAsk = ''
 let heldPrompt = ''
 let isCommitAllowed = false
 
-const isOn = (s: Show, id: string) => !s.off.includes(id)
+// Switched off in the app's settings (userConfig): it stays off whatever the pane's switch says.
+let setOff: readonly string[] = []
+const isOn = (s: Show, id: string) => !s.off.includes(id) && !setOff.includes(id)
 const isShown = (s: Show, id: string) => !s.quiet && isOn(s, id)
 
 const strings = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : [])
@@ -206,7 +208,30 @@ const restoreDraft = (d: Dollar, text: string) => {
   })
 }
 
-export const register: Register = on => {
+export const register: Register = (on, options) => {
+  // This mod's own section in the shared "Mod manager" settings panel.
+  on('ui.render', { component: 'Pane', plugin: '*', requestId: 'mod-settings' }, async ($, e, next) => {
+    const { Box, Text, Button } = $.ui.resolve(e)
+    const how = await read($, show)
+
+    return (
+      <Box flexDirection="column">
+        {await next(e)}
+        <Box flexDirection="column" marginTop="md">
+          <Text weight="bold">Helpers</Text>
+          <Box gap="sm" flexWrap="wrap">
+            <Button key="hp-quiet" label={`Quiet mode: ${how.quiet ? 'on' : 'off'}`} onPress={() => toggleQuiet($)} />
+            {FEATURES.map(f => (
+              <Button key={`hp-${f.id}`} label={`${f.label}: ${setOff.includes(f.id) ? 'off' : isOn(how, f.id) ? 'on' : 'off'}`} onPress={() => toggle($, f.id)} />
+            ))}
+          </Box>
+        </Box>
+      </Box>
+    )
+  })
+
+  setOff = ['footer', 'question', 'sound'].filter(id => options?.[id] === false)
+
   on('session.start', async ($, e, next) => {
     for (const [name, description] of [
       ['helpers', 'Helpers: switches, changes, steps and notes. /helpers allow-commit lets one held commit through'],
@@ -592,7 +617,7 @@ export const register: Register = on => {
           {before !== '' && <Text dimColor>Last time here: {before}</Text>}
           <Button key="quiet" label={`Quiet mode: ${how.quiet ? 'on' : 'off'}`} onPress={() => toggleQuiet($)} />
           {FEATURES.map(f => (
-            <Button key={`sw-${f.id}`} label={`${f.label}: ${isOn(how, f.id) ? 'on' : 'off'}`} onPress={() => toggle($, f.id)} />
+            <Button key={`sw-${f.id}`} label={`${f.label}: ${setOff.includes(f.id) ? 'off in Settings' : isOn(how, f.id) ? 'on' : 'off'}`} onPress={() => toggle($, f.id)} />
           ))}
           <Text dimColor>
             {mine.length === 0 ? 'Add your own right-click action: /shortcut add Persian = Translate this into Persian:' : `Your actions: ${mine.map(s => s.label).join(', ')}`}

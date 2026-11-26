@@ -38,13 +38,13 @@
       "name": "motion",
       "source": "./motion",
       "description": "Calm motion for the interface: eased gauges, number tickers, status typing and pulse, tool-row shimmer and check pops, spring timer ring, idle breathing, test celebration, and a /motion on|off switch",
-      "version": "0.1.0"
+      "version": "0.2.0"
     },
     {
       "name": "cockpit",
       "source": "./cockpit",
       "description": "One tabbed cockpit pane (overview, tool timeline, files, todo, history, errors, links, palette) plus a git/spend band, forecasts, shelves and pins",
-      "version": "0.8.0"
+      "version": "0.12.0"
     },
     {
       "name": "tool-visuals",
@@ -146,7 +146,7 @@
       "name": "settings",
       "source": "./settings",
       "description": "Shared look-and-feel settings (accent, density, icons, preset) that other mods can read; /cfg to change them",
-      "version": "0.2.0"
+      "version": "0.3.0"
     },
     {
       "name": "skins",
@@ -212,7 +212,7 @@
       "name": "mod-manager",
       "source": "./mod-manager",
       "description": "Front door for a collection of mods and other Claude plugins: catalog, installed list, bundles, remote update check, and install/enable/disable/update/uninstall command lines you can copy or run after a two-step confirm",
-      "version": "0.3.0"
+      "version": "0.4.0"
     },
     {
       "name": "visuals",
@@ -296,6 +296,12 @@
       "name": "helpers",
       "source": "./helpers",
       "description": "Quiet helpers: plain-words approvals, delete preview, secret and commit guards, changes and steps panels, time and cost under replies, welcome-back summary, right-click extras, notes and /quietmode",
+      "version": "0.3.0"
+    },
+    {
+      "name": "sidekick",
+      "source": "./sidekick",
+      "description": "Claim checker, loose ends, standing rules, prompt queue, daily summary, project card, running servers, file rewind, sensitive-file and branch warnings, right-click teach and prove",
       "version": "0.1.0"
     }
   ]

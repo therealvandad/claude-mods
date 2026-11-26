@@ -191,6 +191,24 @@ const setOne = async (d: Dollar, what: string, value: string) => {
 }
 
 export const register: Register = on => {
+  // This mod's own section in the shared "Mod manager" settings panel.
+  on('ui.render', { component: 'Pane', plugin: '*', requestId: 'mod-settings' }, async ($, e, next) => {
+    const { Box, Text, Button } = $.ui.resolve(e)
+    const calm = await read($, isCalm)
+
+    return (
+      <Box flexDirection="column">
+        {await next(e)}
+        <Box flexDirection="column" marginTop="md">
+          <Text weight="bold">Shared (settings)</Text>
+          <Box gap="sm" flexWrap="wrap">
+            <Button key="st-calm" label={`Calm mode: ${calm ? 'on' : 'off'}`} onPress={() => setOne($, 'calm', calm ? 'off' : 'on')} />
+          </Box>
+        </Box>
+      </Box>
+    )
+  })
+
   on('session.start', async ($, e, next) => {
     await load($)
     await $.command

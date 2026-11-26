@@ -46,7 +46,9 @@ import {
 } from './plain'
 import type { View } from './plain'
 import { drawSteps, stepsOf, styleFor } from './chat'
-import { colorName, themeFor } from './colors'
+import { isPremium, premiumStyle, scene, stepBar } from './premium'
+import type { LookOptions } from './premium'
+import { COLOR_NAMES, colorLabel, colorName, themeFor } from './colors'
 import { addMark, drawNote, errorNote, markNote, settleMarks, SLOW_MS, slowNote } from './rows'
 import type { Marks, RowNote } from './rows'
 import { drawMenu, menuTarget, pinText, quote, rememberText } from './menu'
@@ -382,11 +384,16 @@ const flushStore = async (d: Dollar) => {
   }
 }
 
+const optionsOf = (how: Partial<View>): LookOptions => ({ size: how.size ?? 'medium', glass: how.glass ?? 'frosted', corners: how.corners ?? 'soft' })
+
 const applyChatLook = async (d: Dollar) => {
   // The answer is kept, so `/bar chat on` can say why nothing changed when nothing does.
   const how = await read(d, view)
   // one theme stands at a time, so the chat style and the colors are sent together
-  const look = { ...themeFor(colorName(how.colors)), ...(how.chat === false ? {} : { style: styleFor(how.chatStyle) }) }
+  const name = colorName(how.colors)
+  const options = optionsOf(how)
+  // A premium look brings its own message cards; the other themes keep the chosen chat style.
+  const look = { ...themeFor(name, options), ...(how.chat === false ? {} : { style: isPremium(name) ? premiumStyle(name, options) : styleFor(how.chatStyle) }) }
   const said = await d.theme.set(look).then(
     r => (r.isDrawn ? 'The app accepted it.' : `The app is not drawing it: ${'reason' in r ? String(r.reason) : 'no reason given'}`),
     (e: unknown) => `The app refused it: ${String(e).slice(0, 200)}`,
@@ -399,7 +406,7 @@ const setView = async (d: Dollar, patch: Partial<View>) => {
   await update(d, view, () => next)
   await d.store.set('view', next)
 
-  if (patch.chat !== undefined || patch.chatStyle !== undefined || patch.colors !== undefined) {
+  if ([patch.chat, patch.chatStyle, patch.colors, patch.size, patch.glass, patch.corners].some(x => x !== undefined)) {
     if (next.chat === false && colorName(next.colors) === 'app') {
       await d.theme.clear().catch(() => undefined)
     } else {
@@ -472,9 +479,25 @@ const unwatchSlow = async (d: Dollar, id: string) => {
 }
 
 const runBar = async (d: Dollar, args: string) => {
-  const colors = /^colors?\s+(app|paper|midnight|contrast)$/i.exec(args.trim())?.[1]?.toLowerCase()
+  const option = /^(size|glass|corners)\s+(small|medium|large|clear|frosted|solid|soft|sharp)$/i.exec(args.trim())
+
+  if (option !== null) {
+    const key = (option[1] ?? '').toLowerCase()
+    const value = (option[2] ?? '').toLowerCase()
+    const fits = { size: ['small', 'medium', 'large'], glass: ['clear', 'frosted', 'solid'], corners: ['soft', 'sharp'] }[key as 'size']
+
+    if (fits?.includes(value) === true) {
+      await setView(d, { [key]: value } as Partial<View>)
+
+      return { text: `${key}: ${value}. It shows with the premium looks.` }
+    }
+  }
+  const colors = /^colors?\s+([a-z]+)$/i.exec(args.trim())?.[1]?.toLowerCase()
 
   if (colors !== undefined) {
+    if (!COLOR_NAMES.includes(colorName(colors)) || colorName(colors) !== colors) {
+      return { text: `Themes: ${COLOR_NAMES.join(', ')}.` }
+    }
     await setView(d, { colors: colorName(colors) })
 
     return { text: colors === 'app' ? "The app's own colors are back." : `Colors: ${colors}.` }
@@ -513,7 +536,7 @@ const runBar = async (d: Dollar, args: string) => {
     const how = await read(d, view)
     const chatNow = how.chat === false ? 'off' : how.chatStyle === 'clean' ? 'clean' : 'roomy'
 
-    return { text: `/${barName} colors app|paper|midnight|contrast (now ${colorName(how.colors)})\n/${barName} rows on|off (now ${how.rows === false ? 'off' : 'on'})\n/${barName} chat roomy|clean|off (now ${chatNow})\n/${barName} look plain|rich (now ${how.look})\n${out.text}` }
+    return { text: `/${barName} size|glass|corners (premium looks)\n/${barName} colors ${COLOR_NAMES.join('|')} (now ${colorName(how.colors)})\n/${barName} rows on|off (now ${how.rows === false ? 'off' : 'on'})\n/${barName} chat roomy|clean|off (now ${chatNow})\n/${barName} look plain|rich (now ${how.look})\n${out.text}` }
   }
 
   if (out.isChanged) {
@@ -746,6 +769,34 @@ const loadStore = async (d: Dollar) => {
 // ---------------------------------------------------------------- the mod
 
 export const register: Register = on => {
+  // This mod's own section in the shared "Mod manager" settings panel.
+  on('ui.render', { component: 'Pane', plugin: '*', requestId: 'mod-settings' }, async ($, e, next) => {
+    const { Box, Text, Button } = $.ui.resolve(e)
+    const how = await read($, view)
+
+    return (
+      <Box flexDirection="column">
+        {await next(e)}
+        <Box flexDirection="column" marginTop="md">
+          <Text weight="bold">Look and chat (cockpit)</Text>
+          <Box gap="sm" flexWrap="wrap">
+            <Button key="cp-chat" label={`Chat style: ${how.chat === false ? 'off' : how.chatStyle === 'clean' ? 'clean' : 'roomy'}`} onPress={() => setView($, how.chat === false ? { chat: true, chatStyle: 'roomy' } : how.chatStyle === 'clean' ? { chat: false } : { chatStyle: 'clean' })} />
+            {COLOR_NAMES.map(c => (
+              <Button key={`cp-colors-${c}`} label={`${colorName(how.colors) === c ? '● ' : ''}${colorLabel(c)}`} onPress={() => setView($, { colors: c })} />
+            ))}
+            <Button key="cp-size" label={`Text size: ${optionsOf(how).size}`} onPress={() => setView($, { size: optionsOf(how).size === 'small' ? 'medium' : optionsOf(how).size === 'medium' ? 'large' : 'small' })} />
+            <Button key="cp-glass" label={`Glass: ${optionsOf(how).glass}`} onPress={() => setView($, { glass: optionsOf(how).glass === 'clear' ? 'frosted' : optionsOf(how).glass === 'frosted' ? 'solid' : 'clear' })} />
+            <Button key="cp-corners" label={`Corners: ${optionsOf(how).corners}`} onPress={() => setView($, { corners: optionsOf(how).corners === 'soft' ? 'sharp' : 'soft' })} />
+            <Button key="cp-rows" label={`Notes under rows: ${how.rows === false ? 'off' : 'on'}`} onPress={() => setView($, { rows: how.rows === false })} />
+            <Button key="cp-clean" label={`Row above the box: ${how.clean ? 'hidden' : 'shown'}`} onPress={() => setView($, { clean: !how.clean })} />
+            <Button key="cp-alert" label={`Done pop-up: ${how.alert ? 'on' : 'off'}`} onPress={() => setView($, { alert: !how.alert })} />
+            <Button key="cp-look" label={`Panels: ${how.look}`} onPress={() => setView($, { look: how.look === 'plain' ? 'rich' : 'plain' })} />
+          </Box>
+        </Box>
+      </Box>
+    )
+  })
+
   on('session.start', async ($, e, next) => {
     for (const [name, description] of [
       ['cockpit', 'Open the cockpit pane: /cockpit [overview|timeline|files|todo|history|errors|links|palette|bar]'],
@@ -1160,15 +1211,46 @@ export const register: Register = on => {
     }
   })
 
+  on('ui.render', { component: 'Backdrop' }, async ($, e, next) => {
+    const wanted = String(e.props.scene)
+
+    if ((e.surface !== 'desktop' && e.surface !== 'mobile') || !isPremium(wanted)) {
+      return next(e)
+    }
+    const { Svg } = $.ui.resolve(e)
+    const isMoving = (await read($, motionIsOn)) && !(await read($, settingsIsCalm))
+
+    return <Svg source={scene(wanted, isMoving)} alt="A slow, soft backdrop" isInteractive />
+  })
+
   // The app keeps its own working row (what it is doing, time, tokens); the step line goes under it.
   on('ui.render', { component: 'Spinner' }, async ($, e, next) => {
     if (e.surface !== 'desktop') {
       return next(e)
     }
     const how = await read($, view)
-    const steps = how.clean || how.look !== 'plain' ? null : stepsOf((await read($, barLive)).tasks)
+    const tasks = how.clean || how.look !== 'plain' ? [] : (await read($, barLive)).tasks
+    const steps = stepsOf(tasks)
 
-    return steps === null ? next(e) : drawSteps($.ui.resolve(e), steps, await next(e))
+    if (steps === null) {
+      return next(e)
+    }
+
+    const name = colorName(how.colors)
+
+    if (!isPremium(name)) {
+      return drawSteps($.ui.resolve(e), steps, await next(e))
+    }
+    const { Box, Text, Svg } = $.ui.resolve(e)
+    const picture = stepBar(name, tasks.filter(t => t.status === 'completed').length, tasks.length)
+
+    return (
+      <Box flexDirection="column" gap="sm">
+        {await next(e)}
+        <Svg source={picture.source} alt={steps.text} width={picture.width} height={picture.height} />
+        <Text dimColor>{steps.text}</Text>
+      </Box>
+    )
   })
 
   // One line under an edit or command row. Rows with nothing to say stay exactly the app's.

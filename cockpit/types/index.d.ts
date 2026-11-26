@@ -108,7 +108,7 @@ declare module 'claude-code' {
       barConfig: Shaped<BarConfig>
       barLive: Shaped<BarLive>
       isTypingHidden: boolean
-      view: Shaped<{ look: 'plain' | 'rich'; clean: boolean; alert: boolean; chat: boolean; chatStyle: 'roomy' | 'clean'; rows: boolean; colors: 'app' | 'paper' | 'midnight' | 'contrast' }>
+      view: Shaped<{ look: 'plain' | 'rich'; clean: boolean; alert: boolean; chat: boolean; chatStyle: 'roomy' | 'clean'; rows: boolean; colors: 'app' | 'aurora' | 'midnightpro' | 'editorial' | 'obsidian' | 'abyss' | 'ember' | 'paper' | 'midnight' | 'contrast' | 'nord' | 'forest' | 'ocean' | 'rose' | 'mocha' | 'sunset' | 'lavender' | 'graphite' | 'mint' | 'berry' | 'sand' | 'solar'; size: 'small' | 'medium' | 'large'; glass: 'clear' | 'frosted' | 'solid'; corners: 'soft' | 'sharp' }>
       myPrompts: Shaped<Record<string, number>>
       editMarks: Shaped<Record<string, 'untested' | 'tested' | 'failed'>>
       slow: Shaped<Record<string, number>>

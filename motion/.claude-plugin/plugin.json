@@ -1,1 +1,6 @@
-{ "name": "motion", "version": "0.1.0", "description": "Calm motion for the interface: eased gauges, number tickers, status typing and pulse, tool-row shimmer and check pops, spring timer ring, idle breathing, test celebration, and a /motion on|off switch", "types": "./types/index.d.ts" }
+{
+  "name": "motion",
+  "version": "0.2.0",
+  "description": "Calm motion for the interface: eased gauges, number tickers, status typing and pulse, tool-row shimmer and check pops, spring timer ring, idle breathing, test celebration, and a /motion on|off switch",
+  "types": "./types/index.d.ts"
+}

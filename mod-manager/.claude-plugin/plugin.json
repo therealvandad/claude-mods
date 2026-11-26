@@ -1,6 +1,6 @@
 {
   "name": "mod-manager",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Front door for a collection of mods and other Claude plugins: catalog, installed list, bundles, remote update check, and install/enable/disable/update/uninstall command lines you can copy or run after a two-step confirm; a Features tab turns each mod's pop-ups, sounds, status line and row on or off through /cfg",
   "types": "./types/index.d.ts",
   "dependencies": [

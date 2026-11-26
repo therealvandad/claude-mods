@@ -3,3 +3,5 @@
 node_modules/
 # editor types the engine generates
 **/.claude-plugin/types/
+# local notes, never uploaded
+CLAUDE.local.md

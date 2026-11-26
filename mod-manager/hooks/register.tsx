@@ -719,6 +719,10 @@ const runCommand = async ($: Dollar, name: string, args: string, origin: unknown
       await $.ui.open({ id: PANE, title: 'Mod manager' }).catch(() => undefined)
 
       return helpText()
+    case 'mmsettings':
+      await $.ui.open({ id: 'mod-settings', title: 'Mod manager' }).catch(() => undefined)
+
+      return 'Mod manager settings opened.'
     case 'mmlist':
       return listCommand($)
     case 'mmcat':
@@ -848,6 +852,51 @@ const featuresCommand = async ($: Dollar, args: string): Promise<string> => {
 // ------------------------------------------------------------------ the module
 
 export const register: Register = on => {
+  on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e, next) => {
+    const { Box, Button } = $.ui.resolve(e)
+
+    return (
+      <Box flexDirection="column">
+        <Box marginBottom="sm">
+          <Button key="open-settings" label="All settings" onPress={() => $.ui.open({ id: 'mod-settings', title: 'Mod manager' })} />
+        </Box>
+        {await next(e)}
+      </Box>
+    )
+  })
+
+  // One panel for every mod's settings: this draws the heading, and each mod adds its own section.
+  on('ui.render', { component: 'Pane', requestId: 'mod-settings' }, async ($, e, next) => {
+    const { Box, Text, Button } = $.ui.resolve(e)
+    const fillIn = (text: string) => $.prompt.fill({ text, mode: 'replace' })
+
+    return (
+      <Box flexDirection="column" padding="sm">
+        <Text size="heading" weight="bold">
+          Mod manager
+        </Text>
+        <Text dimColor>Settings of your switched-on mods. A change applies at once.</Text>
+        {await next(e)}
+        <Box flexDirection="column" marginTop="md">
+          <Text weight="bold">Safety</Text>
+          <Text dimColor>These put the command in the prompt box; you press Enter.</Text>
+          <Box gap="sm" flexWrap="wrap">
+            {(
+              [
+                ['Read-only mode', '/readonly'],
+                ['Dry run', '/dryrun'],
+                ['Spending limit', '/hardbudget 5'],
+                ['Safety log', '/safetylog'],
+              ] as const
+            ).map(([label, command]) => (
+              <Button key={`safe-${command.split(' ')[0]}`} label={label} onPress={() => fillIn(command)} />
+            ))}
+          </Box>
+        </Box>
+      </Box>
+    )
+  })
+
   on('session.start', async ($, e, next) => {
     await load($).catch(() => undefined)
 

@@ -1,6 +1,26 @@
 {
   "name": "helpers",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "types": "./types/index.d.ts",
-  "description": "Quiet helpers: plain-words approvals, delete preview, secret and commit guards, changes and steps panels, time and cost under replies, welcome-back summary, right-click extras, notes and /quietmode"
+  "description": "Quiet helpers: plain-words approvals, delete preview, secret and commit guards, changes and steps panels, time and cost under replies, welcome-back summary, right-click extras, notes and /quietmode",
+  "userConfig": {
+    "footer": {
+      "type": "boolean",
+      "title": "Time and cost under replies",
+      "description": "Show how long a turn took and what it cost",
+      "default": true
+    },
+    "question": {
+      "type": "boolean",
+      "title": "Highlight Claude's questions",
+      "description": "Mark the question a reply ends with",
+      "default": true
+    },
+    "sound": {
+      "type": "boolean",
+      "title": "Sound after long tasks",
+      "description": "A short sound when a task over a minute finishes",
+      "default": true
+    }
+  }
 }

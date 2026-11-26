@@ -462,6 +462,24 @@ const stateText = () =>
 
 // ---- the mod -----------------------------------------------------------------
 export const register: Register = on => {
+  // This mod's own section in the shared "Mod manager" settings panel.
+  on('ui.render', { component: 'Pane', plugin: '*', requestId: 'mod-settings' }, async ($, e, next) => {
+    const { Box, Text, Button } = $.ui.resolve(e)
+    const moving = await read($, isOnA)
+
+    return (
+      <Box flexDirection="column">
+        {await next(e)}
+        <Box flexDirection="column" marginTop="md">
+          <Text weight="bold">Animation (motion)</Text>
+          <Box gap="sm" flexWrap="wrap">
+            <Button key="mo-on" label={`Motion: ${moving ? 'on' : 'off'}`} onPress={() => setMotion($, !moving)} />
+          </Box>
+        </Box>
+      </Box>
+    )
+  })
+
   on('session.start', async ($, e, next) => {
     motionOn = isStoredOn(await $.store.get('motion'))
     await update($, isOnA, () => motionOn)

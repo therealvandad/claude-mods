@@ -45,6 +45,7 @@ export const ALLOWED_HOSTS: readonly string[] = ['github.com', 'raw.githubuserco
 /** Every command of this mod and its one-line help. The first is the bare prefix. */
 export const COMMANDS: readonly (readonly [string, string, string])[] = [
   ['mm', 'Mod manager: open the pane and list every command', ''],
+  ['mmsettings', 'All your mods\' settings in one panel', ''],
   ['mmlist', 'Show the installed plugins (read-only plugin list) and the reachable CLI', '[refresh]'],
   ['mmcat', 'List the catalog of mods by category', '[category]'],
   ['mmdo', 'Install, enable, disable, update or uninstall a plugin: prints the command, then /mmdo confirm runs it', '<verb> <name> [--scope user|project|local] | confirm | cancel'],

@@ -1,6 +1,6 @@
 # claude-mods
 
-49 mods for the Claude desktop app's Code tab and Claude Code. This is an unofficial hobby project, not affiliated with or endorsed by Anthropic.
+50 mods for the Claude desktop app's Code tab and Claude Code. This is an unofficial hobby project, not affiliated with or endorsed by Anthropic.
 
 **Read before installing.** A mod is code that runs inside your session with your permissions: it can see tool calls and prompts, and some run commands such as `git`. Read a mod's code before you install it. These mods were written with Claude and have had little real-world use.
 
@@ -18,10 +18,11 @@ Start with the set below. `cockpit` needs `motion` and `settings`; install those
 
 | Mod | What it does | Tests |
 | --- | --- | --- |
-| `cockpit` | One tabbed cockpit pane (overview, tool timeline, files, todo, history, errors, links, palette) plus a git/spend band, forecasts, shelves and pins | 92 |
-| `helpers` | Quiet helpers: plain-words approvals, delete preview, secret and commit guards, changes and steps panels, time and cost under replies, welcome-back summary, right-click extras, notes and /quietmode | 11 |
-| `motion` | Calm motion for the interface: eased gauges, number tickers, status typing and pulse, tool-row shimmer and check pops, spring timer ring, idle breathing, test celebration, and a /motion on\|off switch | 24 |
-| `settings` | Shared look-and-feel settings (accent, density, icons, preset) that other mods can read; /cfg to change them | 45 |
+| `cockpit` | One tabbed cockpit pane (overview, tool timeline, files, todo, history, errors, links, palette) plus a git/spend band, forecasts, shelves and pins | 97 |
+| `helpers` | Quiet helpers: plain-words approvals, delete preview, secret and commit guards, changes and steps panels, time and cost under replies, welcome-back summary, right-click extras, notes and /quietmode | 12 |
+| `sidekick` | Claim checker, loose ends, standing rules, prompt queue, daily summary, project card, running servers, file rewind, sensitive-file and branch warnings, right-click teach and prove | 7 |
+| `motion` | Calm motion for the interface: eased gauges, number tickers, status typing and pulse, tool-row shimmer and check pops, spring timer ring, idle breathing, test celebration, and a /motion on\|off switch | 25 |
+| `settings` | Shared look-and-feel settings (accent, density, icons, preset) that other mods can read; /cfg to change them | 46 |
 | `mod-manager` | Front door for a collection of mods and other Claude plugins: catalog, installed list, bundles, remote update check, and install/enable/disable/update/uninstall command lines you can copy or run after a two-step confirm | 104 |
 | `tool-guard` | Blocks risky tool calls, badges commands by risk, and shows a pass/fail card under test runs | 3 |
 | `safety-pro` | Safety and power workflow: dry-run, allowlist, hard budget, loop breaker, protected paths, opt-in checkpoints with confirmed rollback, pre-commit check, auto-compact, handoff note and a block log | 11 |
@@ -31,7 +32,9 @@ Start with the set below. `cockpit` needs `motion` and `settings`; install those
 ### What `cockpit` adds
 
 - A chat look: `/bar chat roomy|clean|off`
-- Color themes: `/bar colors paper|midnight|contrast|app`
+- Premium looks with an animated backdrop, frosted glass, message cards and a step bar: Aurora Glass, Midnight Pro, Editorial, Obsidian Gold, Abyss, Ember Dusk (`/bar colors aurora`)
+- Plain color themes: paper, midnight, contrast, nord, forest, ocean, rose, mocha, sunset, lavender, graphite, mint, berry, sand, solar. `/bar colors app` brings back the app's own
+- Options for the premium looks: `/bar size small|medium|large`, `/bar glass clear|frosted|solid`, `/bar corners soft|sharp`
 - Right-click a reply or selected text: explain simpler, shorter, how to test it, pin it
 - Notes under rows (tested or not tested edits, why a command failed, how long a slow one has run): `/bar rows on|off`
 - A step line under the working row while Claude has a task list
@@ -46,6 +49,17 @@ Start with the set below. `cockpit` needs `motion` and `settings`; install those
 - Under replies: time and cost, a summary after long tasks, and Claude's closing question
 - Right-click extras and your own actions: `/shortcut add <name> = <what to ask>`
 - `/helpers` switches parts on and off; `/quietmode` hides the extras
+
+### One settings panel
+
+`/mmsettings` (from `mod-manager`) shows the switches of the mods above in one place. Each mod draws its own section.
+
+### What `sidekick` adds
+
+- Flags "tests pass" claims when no test ran, and collects "not verified" and "for later" sentences
+- `/sidekick`: loose ends, standing rules, a prompt queue, today's summary, a project card, running servers
+- Right-click: prove it, teach me, quiz me, make a rule, explain an error, put edited files back
+- Warnings for sensitive files, the main branch, generated or very large files, long chats and usage limits
 
 ## Everything else
 
@@ -97,7 +111,7 @@ These are extras. Many overlap, and installing them all at once makes the app cl
 ## Status
 
 - Built and tested on macOS with Claude Code 2.1.330. Other systems are untested.
-- 2258 automated tests across 47 mods pass; 2 mods have no tests. Tests do not paint the screen, so a passing mod can still look wrong in the app.
+- 2273 automated tests across 48 mods pass; 2 mods have no tests. Tests do not paint the screen, so a passing mod can still look wrong in the app.
 - The safety mods (`tool-guard`, `safety-pro`, `controls`, `control-kit`) and the guards in `helpers` are aids, **not a security boundary**. Do not rely on them to stop a harmful command.
 - The marketplace is named `local-mods`.
 

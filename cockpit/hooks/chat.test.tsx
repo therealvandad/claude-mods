@@ -136,7 +136,7 @@ test('color themes go out with the chat style, and none is refused by the deskto
   await $.session.start(START)
   expect(refusals()).toEqual([])
 
-  for (const name of ['paper', 'midnight', 'contrast']) {
+  for (const name of ['paper', 'midnight', 'contrast', 'nord', 'forest', 'ocean', 'rose', 'mocha', 'sunset', 'lavender', 'graphite', 'mint', 'berry', 'sand', 'solar']) {
     await $.command.run({ command: 'bar', args: `colors ${name}` } as any)
     const sent = JSON.stringify(w.themes[w.themes.length - 1])
     expect(sent, name).toContain('colors')
@@ -147,4 +147,21 @@ test('color themes go out with the chat style, and none is refused by the deskto
   expect(JSON.stringify(w.themes[w.themes.length - 1])).not.toContain('fontSize')
   await $.command.run({ command: 'bar', args: 'colors app' } as any)
   expect(w.cleared).toBe(1)
+})
+
+test('this mod draws its section in the shared Mod manager panel', async ($, on) => {
+  const w = world(on)
+  await $.session.start(START)
+  const ui = await $.ui.mount({
+    plugin: 'mod-manager',
+    component: 'Pane',
+    requestId: 'mod-settings',
+    surface: 'desktop',
+    props: { title: 'Mod manager', isFocused: false, bodyColumns: 80, placement: 'dock', scroll: { offset: 0, bodyRows: 30 }, view: {} },
+  } as any)
+
+  expect((await ui.findAll({ type: 'Text' })).map((n: any) => (n.children ?? []).join('')).join('\n')).toContain('Look and chat (cockpit)')
+  await ui.press({ key: 'cp-rows', plugin: 'cockpit' })
+  expect(w.saved.view).toMatchObject({ rows: false })
+  await ui.unmount()
 })

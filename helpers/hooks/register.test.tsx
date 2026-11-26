@@ -287,3 +287,20 @@ test('helpers read commands, files and replies correctly', async () => {
   expect(closingQuestion('Two options. Which one?')).toBe('Which one?')
   expect(stepsAfter([], 'TodoWrite', { todos: [{ content: 'A', status: 'pending' }] }, 1)).toHaveLength(1)
 })
+
+test('this mod draws its section in the shared Mod manager panel', async ($, on) => {
+  const w = world(on)
+  await $.session.start(START)
+  const ui = await $.ui.mount({
+    plugin: 'mod-manager',
+    component: 'Pane',
+    requestId: 'mod-settings',
+    surface: 'desktop',
+    props: { title: 'Mod manager', isFocused: false, bodyColumns: 80, placement: 'dock', scroll: { offset: 0, bodyRows: 30 }, view: {} },
+  } as any)
+
+  expect((await ui.findAll({ type: 'Text' })).map((n: any) => (n.children ?? []).join('')).join('\n')).toContain('Helpers')
+  await ui.press({ key: 'hp-sound', plugin: 'helpers' })
+  expect(w.saved.off).toEqual(['sound'])
+  await ui.unmount()
+})
