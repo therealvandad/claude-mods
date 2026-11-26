@@ -1,6 +1,6 @@
 {
   "name": "cockpit",
-  "version": "0.6.1",
+  "version": "0.8.0",
   "description": "One tabbed cockpit pane (overview, tool timeline, files, todo, history, errors, links, palette) plus a git/spend band, forecasts, shelves and pins",
   "types": "./types/index.d.ts",
   "dependencies": [

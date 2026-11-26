@@ -46,8 +46,10 @@ import {
 } from './plain'
 import type { View } from './plain'
 import { drawSteps, stepsOf, styleFor } from './chat'
+import { colorName, themeFor } from './colors'
 import { addMark, drawNote, errorNote, markNote, settleMarks, SLOW_MS, slowNote } from './rows'
 import type { Marks, RowNote } from './rows'
+import { drawMenu, menuTarget, pinText, quote, rememberText } from './menu'
 import {
   addItem,
   alertOf,
@@ -382,7 +384,10 @@ const flushStore = async (d: Dollar) => {
 
 const applyChatLook = async (d: Dollar) => {
   // The answer is kept, so `/bar chat on` can say why nothing changed when nothing does.
-  const said = await d.theme.set({ style: styleFor((await read(d, view)).chatStyle) }).then(
+  const how = await read(d, view)
+  // one theme stands at a time, so the chat style and the colors are sent together
+  const look = { ...themeFor(colorName(how.colors)), ...(how.chat === false ? {} : { style: styleFor(how.chatStyle) }) }
+  const said = await d.theme.set(look).then(
     r => (r.isDrawn ? 'The app accepted it.' : `The app is not drawing it: ${'reason' in r ? String(r.reason) : 'no reason given'}`),
     (e: unknown) => `The app refused it: ${String(e).slice(0, 200)}`,
   )
@@ -394,10 +399,12 @@ const setView = async (d: Dollar, patch: Partial<View>) => {
   await update(d, view, () => next)
   await d.store.set('view', next)
 
-  if (patch.chat === false) {
-    await d.theme.clear().catch(() => undefined)
-  } else if (patch.chat === true || (patch.chatStyle !== undefined && next.chat !== false)) {
-    await applyChatLook(d)
+  if (patch.chat !== undefined || patch.chatStyle !== undefined || patch.colors !== undefined) {
+    if (next.chat === false && colorName(next.colors) === 'app') {
+      await d.theme.clear().catch(() => undefined)
+    } else {
+      await applyChatLook(d)
+    }
   }
 
   return next
@@ -423,6 +430,17 @@ const loadView = async (d: Dollar) => {
   await update(d, view, () => saved)
   const counts = countsOf(await d.store.get('myprompts'))
   await update(d, myPrompts, () => counts)
+}
+
+// The text of drawn replies, for the right-click menu. Not state: nothing redraws when it changes.
+const replyTexts = new Map<string, string>()
+
+const askAbout = async (d: Dollar, lead: string, text: string) => {
+  const filled = await d.prompt.fill({ text: `${lead}\n${quote(text)}\n`, mode: 'insert' })
+
+  if (filled?.isFilled === false) {
+    d.ui.toast('Could not fill the prompt box.')
+  }
 }
 
 // Commands being watched for slowness. A quick one costs a single timer that is cancelled.
@@ -454,6 +472,13 @@ const unwatchSlow = async (d: Dollar, id: string) => {
 }
 
 const runBar = async (d: Dollar, args: string) => {
+  const colors = /^colors?\s+(app|paper|midnight|contrast)$/i.exec(args.trim())?.[1]?.toLowerCase()
+
+  if (colors !== undefined) {
+    await setView(d, { colors: colorName(colors) })
+
+    return { text: colors === 'app' ? "The app's own colors are back." : `Colors: ${colors}.` }
+  }
   const rows = /^rows\s+(on|off)$/i.exec(args.trim())?.[1]?.toLowerCase()
 
   if (rows !== undefined) {
@@ -488,7 +513,7 @@ const runBar = async (d: Dollar, args: string) => {
     const how = await read(d, view)
     const chatNow = how.chat === false ? 'off' : how.chatStyle === 'clean' ? 'clean' : 'roomy'
 
-    return { text: `/${barName} rows on|off (now ${how.rows === false ? 'off' : 'on'})\n/${barName} chat roomy|clean|off (now ${chatNow})\n/${barName} look plain|rich (now ${how.look})\n${out.text}` }
+    return { text: `/${barName} colors app|paper|midnight|contrast (now ${colorName(how.colors)})\n/${barName} rows on|off (now ${how.rows === false ? 'off' : 'on'})\n/${barName} chat roomy|clean|off (now ${chatNow})\n/${barName} look plain|rich (now ${how.look})\n${out.text}` }
   }
 
   if (out.isChanged) {
@@ -751,7 +776,9 @@ export const register: Register = on => {
     await loadStore($).catch(() => undefined)
     await loadView($).catch(() => undefined)
 
-    if ((await read($, view)).chat !== false) {
+    const wanted = await read($, view)
+
+    if (wanted.chat !== false || colorName(wanted.colors) !== 'app') {
       await applyChatLook($)
     }
     await loadBar($, e.cwd).catch(() => undefined)
@@ -1172,6 +1199,31 @@ export const register: Register = on => {
     }
 
     return note === null ? next(e) : drawNote($.ui.resolve(e), note, await next(e))
+  })
+
+  // Notes each reply's text as it is drawn and changes nothing about how it looks.
+  on('ui.render', { component: 'AssistantMessage' }, ($, e, next) => {
+    rememberText(replyTexts, e.requestId, e.props.text)
+
+    return next(e)
+  })
+
+  on('ui.render', { component: 'ContextMenu' }, async ($, e, next) => {
+    const target = menuTarget(e.props, replyTexts)
+
+    if (target === null || (await read($, view)).clean) {
+      return next(e)
+    }
+
+    return drawMenu(
+      $.ui.resolve(e),
+      lead => askAbout($, lead, target.text),
+      async () => {
+        const added = await togglePin($, pinText(target.text))
+        $.ui.toast(added ? 'Pinned. See it at the top of /cockpit.' : 'Unpinned.')
+      },
+      await next(e),
+    )
   })
 
   // ------------------------------------------------------------ pane

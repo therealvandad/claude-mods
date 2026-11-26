@@ -4,14 +4,14 @@ import type { ElementTable } from 'claude-code'
 
 import type { BarButton, BarLive } from './bar'
 
-export type View = { look: 'plain' | 'rich'; clean: boolean; alert: boolean; chat: boolean; chatStyle: 'roomy' | 'clean'; rows: boolean }
+export type View = { look: 'plain' | 'rich'; clean: boolean; alert: boolean; chat: boolean; chatStyle: 'roomy' | 'clean'; rows: boolean; colors: 'app' | 'paper' | 'midnight' | 'contrast' }
 
-export const DEFAULT_VIEW: View = { look: 'plain', clean: false, alert: true, chat: true, chatStyle: 'roomy', rows: true }
+export const DEFAULT_VIEW: View = { look: 'plain', clean: false, alert: true, chat: true, chatStyle: 'roomy', rows: true, colors: 'app' }
 
 export const viewOf = (raw: unknown): View => {
   const r = (typeof raw === 'object' && raw !== null ? raw : {}) as Record<string, unknown>
 
-  return { look: r.look === 'rich' ? 'rich' : 'plain', clean: r.clean === true, alert: r.alert !== false, chat: r.chat !== false, chatStyle: r.chatStyle === 'clean' ? 'clean' : 'roomy', rows: r.rows !== false }
+  return { look: r.look === 'rich' ? 'rich' : 'plain', clean: r.clean === true, alert: r.alert !== false, chat: r.chat !== false, chatStyle: r.chatStyle === 'clean' ? 'clean' : 'roomy', rows: r.rows !== false, colors: r.colors === 'paper' || r.colors === 'midnight' || r.colors === 'contrast' ? r.colors : 'app' }
 }
 
 export const CONTEXT_FULL = 80
@@ -251,6 +251,9 @@ export const drawPlainHome = (ui: Kit, d: Home, act: HomeActions) => {
           onPress={() => act.set({ chatStyle: d.view.chatStyle === 'clean' ? 'roomy' : 'clean' })}
         />
         <Button key="home-rows" label={`Row notes: ${d.view.rows !== false ? 'on' : 'off'}`} onPress={() => act.set({ rows: d.view.rows === false })} />
+        {(['app', 'paper', 'midnight', 'contrast'] as const).map(c => (
+          <Button key={`home-colors-${c}`} label={`${d.view.colors === c ? '● ' : ''}${c === 'app' ? 'App colors' : c === 'contrast' ? 'High contrast' : c.charAt(0).toUpperCase() + c.slice(1)}`} onPress={() => act.set({ colors: c })} />
+        ))}
         <Button key="home-look" label="Use the rich look" onPress={() => act.set({ look: 'rich' })} />
       </Box>
       <Text size="caption" dimColor>

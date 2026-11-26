@@ -1,0 +1,6 @@
+{
+  "name": "helpers",
+  "version": "0.1.0",
+  "types": "./types/index.d.ts",
+  "description": "Quiet helpers: plain-words approvals, delete preview, secret and commit guards, changes and steps panels, time and cost under replies, welcome-back summary, right-click extras, notes and /quietmode"
+}

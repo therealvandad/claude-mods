@@ -194,7 +194,7 @@ test('the notice: waiting wins, nothing while working, junk settings read as pla
   expect(noticeOf(live, { isWorking: true, hasGit: true })).toBeNull()
   expect(noticeOf({ ...live, waiting: 'permission' }, { isWorking: true, hasGit: true })?.tone).toBe('warning')
   expect(noticeOf(live, { isWorking: false, hasGit: false })?.buttons.map(b => b.label)).toEqual(['Run tests'])
-  expect(viewOf('junk')).toEqual({ look: 'plain', clean: false, alert: true, chat: true, chatStyle: 'roomy', rows: true })
+  expect(viewOf('junk')).toEqual({ look: 'plain', clean: false, alert: true, chat: true, chatStyle: 'roomy', rows: true, colors: 'app' })
 })
 
 test('before any reply the quiet line still says the cockpit is there', async ($, on) => {

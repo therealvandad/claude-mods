@@ -44,7 +44,7 @@
       "name": "cockpit",
       "source": "./cockpit",
       "description": "One tabbed cockpit pane (overview, tool timeline, files, todo, history, errors, links, palette) plus a git/spend band, forecasts, shelves and pins",
-      "version": "0.6.1"
+      "version": "0.8.0"
     },
     {
       "name": "tool-visuals",
@@ -291,6 +291,12 @@
       "source": "./add-two",
       "description": "Git graph, release notes and changelog, PR checklist, docs search, disk usage, onboarding and cheatsheets, plus learning tools (paths, flashcards, quiz, glossary), design logs, handoff pack, mod ratings, theme gallery and a sharing guide. Read-only shell, no network. Every command starts with ae.",
       "version": "0.2.0"
+    },
+    {
+      "name": "helpers",
+      "source": "./helpers",
+      "description": "Quiet helpers: plain-words approvals, delete preview, secret and commit guards, changes and steps panels, time and cost under replies, welcome-back summary, right-click extras, notes and /quietmode",
+      "version": "0.1.0"
     }
   ]
 }

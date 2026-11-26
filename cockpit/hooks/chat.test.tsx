@@ -1,6 +1,7 @@
 import { expect, test } from 'claude-code/testing'
 
 import { CHAT_STYLE, ROOMY_STYLE, stepsOf } from './chat'
+import { refusals } from './colors'
 
 const START = { cwd: '/work/demo', surface: 'desktop', isInteractive: true } as const
 const SPINNER = {
@@ -128,4 +129,22 @@ test('/bar chat clean and roomy swap the style, and the help lists them', async 
   const help = await $.command.run({ command: 'bar', args: '' } as any)
   expect(help.text).toContain('/bar chat roomy|clean|off (now roomy)')
   expect(JSON.stringify(ROOMY_STYLE)).not.toMatch(/shadow|gradient|rotate|#/)
+})
+
+test('color themes go out with the chat style, and none is refused by the desktop', async ($, on) => {
+  const w = world(on)
+  await $.session.start(START)
+  expect(refusals()).toEqual([])
+
+  for (const name of ['paper', 'midnight', 'contrast']) {
+    await $.command.run({ command: 'bar', args: `colors ${name}` } as any)
+    const sent = JSON.stringify(w.themes[w.themes.length - 1])
+    expect(sent, name).toContain('colors')
+    expect(sent, name).toContain('"fontSize":19')
+  }
+  await $.command.run({ command: 'bar', args: 'chat off' } as any)
+  expect(w.cleared).toBe(0)
+  expect(JSON.stringify(w.themes[w.themes.length - 1])).not.toContain('fontSize')
+  await $.command.run({ command: 'bar', args: 'colors app' } as any)
+  expect(w.cleared).toBe(1)
 })
