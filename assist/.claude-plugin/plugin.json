@@ -1,0 +1,9 @@
+{
+  "name": "assist",
+  "version": "0.1.0",
+  "description": "Quiet helpers that fill the prompt box and never send: next-step chips, stuck detector, explain-error chip, retry, context compressor, smart paste label, file finder, command recall, recap, pre/post-flight checklists, bug-report and handoff drafts, reading time, skimmer, question bank, shortcut coach, error museum and fix library (all /as commands)",
+  "types": "./types/index.d.ts",
+  "dependencies": [
+    "settings"
+  ]
+}

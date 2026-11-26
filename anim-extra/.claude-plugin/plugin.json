@@ -1,0 +1,7 @@
+{
+  "name": "anim-extra",
+  "version": "0.1.0",
+  "description": "Settings hub pane (every mod's help command, presets, enable/disable list, aliases, band order), extra animations (skeleton, ripple, urgent edge glow, day-night strip, reduced-motion previews), and customizing: language, thresholds, file glyphs, alert rule builder, recipes, mod ratings (all /ax commands)",
+  "types": "./types/index.d.ts",
+  "dependencies": ["motion", "settings"]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "debug-kit",
+  "version": "0.1.0",
+  "description": "Debugging helpers: failing-test focus, bisect guide, stack-trace explainer, repro recorder, flaky/coverage/timing/snapshot test insights, log tail, error clusters, hypothesis board, breadcrumbs, env snapshot, port finder, mock map, crash-loop and regression guards, postmortem draft",
+  "types": "./types/index.d.ts",
+  "dependencies": [
+    "motion"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "control-two",
+  "version": "0.2.0",
+  "description": "Quick controls and diagnostics: toggles for motion, calm, sounds and recording, row visibility rules, backups and restore of your feature switches, a two-step reset, read-only update checks, health lights, error log, hook timing and order, storage meter, command conflicts, dependency graph, changelog, diagnostics text and notes per mod (prefix kx)",
+  "types": "./types/index.d.ts",
+  "dependencies": [
+    "motion",
+    "settings"
+  ]
+}

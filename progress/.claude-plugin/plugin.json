@@ -1,0 +1,10 @@
+{
+  "name": "progress",
+  "version": "0.1.0",
+  "description": "Progress and achievement: goals with a daily bar, weekly ring and confetti, milestone ladder, XP, streak calendar with freeze days, projects and checklists, learning, skill tree, habits, personal bests, journal, focus and momentum, backlog, ship log and test metrics (all /pg commands)",
+  "types": "./types/index.d.ts",
+  "dependencies": [
+    "motion",
+    "settings"
+  ]
+}

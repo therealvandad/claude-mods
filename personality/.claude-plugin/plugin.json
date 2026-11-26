@@ -1,0 +1,9 @@
+{
+  "name": "personality",
+  "version": "0.1.0",
+  "description": "Quiet, switchable fun: mood status, streaks, badges, a tiny pet, greeting, tip of the day, focus sprints and a weekly report (/fun on|off)",
+  "types": "./types/index.d.ts",
+  "dependencies": [
+    "motion"
+  ]
+}

@@ -1,0 +1,9 @@
+[
+  { "id": "bar-buttons", "label": "Action buttons under the bar", "description": "Up to four buttons that fill the prompt box when they make sense; nothing is ever sent", "default": true, "group": "Bar" },
+  { "id": "bar-waiting", "label": "Say when it is your turn", "description": "The strip says your turn while a question or an approval is open", "default": true, "group": "Bar" },
+  { "id": "bar-motion", "label": "Bar animations", "description": "The sweep while working and the finishing effects (motion off and calm still win)", "default": true, "group": "Bar" },
+  { "id": "bar-estimates", "label": "Remember command times", "description": "Keep the first words and duration of slow commands to estimate the next run", "default": true, "group": "Bar" },
+  { "id": "bar-background", "label": "Count background tasks", "description": "Count what is still running when a turn stops", "default": true, "group": "Bar" },
+  { "id": "bar-per-project", "label": "A layout per project", "description": "Remember the bar's layout for each folder; off keeps one layout everywhere", "default": true, "group": "Bar" },
+  { "id": "bar-hide-typing", "label": "Allow hiding while typing", "description": "Lets the hide while typing item work (the item itself is off until chosen)", "default": true, "group": "Bar" }
+]

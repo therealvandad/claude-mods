@@ -1,0 +1,9 @@
+{
+  "name": "charts",
+  "version": "0.1.0",
+  "description": "Twenty text charts (donut gauges, 24h clock, treemap, heatmap, Gantt, flame, mini-map, radar, scatter, burndown and more) in one tabbed pane, drawn with block, braille and box characters from this session's recorded tool calls",
+  "types": "./types/index.d.ts",
+  "dependencies": [
+    "settings"
+  ]
+}

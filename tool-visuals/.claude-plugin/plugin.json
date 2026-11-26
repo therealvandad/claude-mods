@@ -1,0 +1,9 @@
+{
+  "name": "tool-visuals",
+  "version": "0.1.0",
+  "description": "Richer tool-call rows: risk edge, file glyphs, mini diffs, duration and size chips, network badges and progress, secret masking, retry counts, failing-test and build-error cards",
+  "types": "./types/index.d.ts",
+  "dependencies": [
+    "motion"
+  ]
+}

@@ -1,0 +1,1 @@
+{ "name": "workbench", "version": "0.1.0", "description": "Live session dashboard, changed-files, notes and timer panes, context band with quick replies, and /sessionrecap", "types": "./types/index.d.ts" }

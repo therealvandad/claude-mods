@@ -1,0 +1,7 @@
+{
+  "name": "finish-kit",
+  "version": "0.2.0",
+  "description": "A style studio: live vector previews of finishes (grays, tones, surfaces, type, data palettes, icons) on sample cards, and commands that apply a finish with one theme call. Nothing is applied until you type a command",
+  "types": "./types/index.d.ts",
+  "dependencies": ["settings"]
+}

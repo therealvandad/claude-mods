@@ -1,0 +1,58 @@
+[
+  {
+    "id": "bar",
+    "label": "Quick-toggle bar",
+    "description": "One row above the prompt with four buttons: motion, calm, sounds, recording",
+    "default": false,
+    "group": "Rows"
+  },
+  {
+    "id": "rules",
+    "label": "Row visibility rules",
+    "description": "After each turn, show or hide a mod's row, pop-ups, sounds or status by context, cost or limit (your rules, max 10)",
+    "default": false,
+    "group": "Rules"
+  },
+  {
+    "id": "autobackup",
+    "label": "Auto backup",
+    "description": "Take a snapshot of your switches and this mod's settings before a confirmed reset or restore (only when you type the confirm)",
+    "default": true,
+    "group": "Backups"
+  },
+  {
+    "id": "badge",
+    "label": "Update badge",
+    "description": "Show how many mods are newer in the table on the Updates tab, after /kxupdates ran",
+    "default": true,
+    "group": "Updates"
+  },
+  {
+    "id": "timing",
+    "label": "Hook timing",
+    "description": "Count and time the hooks of pop-ups and status writes per mod (coarse, this session only)",
+    "default": false,
+    "group": "Recorders"
+  },
+  {
+    "id": "errors",
+    "label": "Error log",
+    "description": "Keep log lines that look like errors and hook failures seen beneath this mod, per mod (this session only)",
+    "default": false,
+    "group": "Recorders"
+  },
+  {
+    "id": "hookorder",
+    "label": "Hook order",
+    "description": "Keep the order of the hooks beneath this mod's own for pop-ups and status writes",
+    "default": false,
+    "group": "Recorders"
+  },
+  {
+    "id": "refusals",
+    "label": "Refused commands",
+    "description": "Keep command registrations the engine refused, as they pass through this mod's hook",
+    "default": false,
+    "group": "Recorders"
+  }
+]

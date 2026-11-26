@@ -1,0 +1,7 @@
+{
+  "name": "ui-kit",
+  "version": "0.2.0",
+  "description": "Six views over what this session did (timeline, files treemap, errors, prompts, spend, activity) in one switchable pane: real vector charts on the desktop app, text charts elsewhere, with split view, master-detail, mini and widget modes, breakpoints, accordions, a stepper, optimistic updates and undo",
+  "types": "./types/index.d.ts",
+  "dependencies": ["motion", "settings"]
+}

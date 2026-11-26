@@ -1,0 +1,9 @@
+[
+  { "id": "history", "label": "Command history", "description": "Record the Bash commands Claude runs (secrets masked, newest 500) so /adhist can search them", "default": false, "group": "Recording" },
+  { "id": "tests", "label": "Test, flaky and coverage tracking", "description": "Read test summaries (jest, vitest, pytest, go, cargo) and coverage from Bash output: runs, trend, flaky names", "default": false, "group": "Recording" },
+  { "id": "builds", "label": "Build timings", "description": "Time Bash commands that look like builds or tests, grouped by command", "default": false, "group": "Recording" },
+  { "id": "errors", "label": "Error clustering", "description": "Group failing tool results by normalised message", "default": false, "group": "Recording" },
+  { "id": "todos", "label": "Edited-file list for the TODO board", "description": "Remember which files Claude edited this session so /adtodo can scan them", "default": false, "group": "Recording" },
+  { "id": "activity", "label": "Project activity counters", "description": "Count tool calls and file types per project folder for the project dashboard", "default": false, "group": "Recording" },
+  { "id": "svg", "label": "Vector chart on the Tests tab", "description": "Draw the test and coverage chart as an image on the desktop app (text chart elsewhere)", "default": true, "group": "Display" }
+]

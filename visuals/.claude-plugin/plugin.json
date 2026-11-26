@@ -1,0 +1,1 @@
+{ "name": "visuals", "version": "0.2.0", "description": "Real vector dashboards for the desktop app: smooth animated rings, sparklines, bars and heat strips drawn as SVG, with a static version for reduced motion", "types": "./types/index.d.ts", "dependencies": ["motion", "settings"] }

@@ -1,0 +1,10 @@
+[
+  { "id": "record", "label": "Record counters for the tiles", "description": "Count tool calls, errors, edited file paths (kept in memory only), prompts, turns and the todo list this session so the tiles have something to show", "default": true, "group": "Recording" },
+  { "id": "badges", "label": "Earn badges", "description": "Check your own badge rules (/cubadge) when a turn ends and remember which are earned this session", "default": true, "group": "Recording" },
+  { "id": "badge-toasts", "label": "Toast when a badge is earned", "description": "A short toast the first time one of your badges is earned (at most one toast per 3 minutes)", "default": false, "group": "Toasts" },
+  { "id": "rules", "label": "Run my alert rules", "description": "Evaluate your /curule rules when a turn ends and show a toast when one turns true (once per change, at most one toast per 3 minutes)", "default": false, "group": "Rules" },
+  { "id": "recipes", "label": "Run the ready-made rules", "description": "Evaluate the six recipe rules you switched on with /curecipe when a turn ends (same throttle as your own rules)", "default": false, "group": "Rules" },
+  { "id": "status-template", "label": "Write my status-line template", "description": "Write your /custatus template (for example {calls} {errors} {spend} {ctx}) to the status line when a turn ends, at most every 15 seconds", "default": false, "group": "Status" },
+  { "id": "buttons-band", "label": "Show my buttons above the prompt", "description": "One row of up to 5 of your /cubtn buttons above the prompt box; each button puts its text in the prompt box", "default": false, "group": "Band" },
+  { "id": "per-project", "label": "Open the project's layout", "description": "When a session starts in a project folder that has a saved layout bound to it (/culayout project), show that layout in the pane", "default": true, "group": "Layouts" }
+]

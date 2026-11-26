@@ -1,0 +1,30 @@
+[
+  {
+    "id": "block",
+    "label": "Bash block list",
+    "description": "Your own list of command pieces that this mod's tool.call hook refuses to run in Bash. The list starts empty; nothing is blocked until you add a piece with /kcblock add",
+    "default": false,
+    "group": "Guards"
+  },
+  {
+    "id": "reorder",
+    "label": "Reorder rows above the prompt",
+    "description": "Applies the order saved with /kcorder to the rows above the prompt. Rows are never dropped",
+    "default": false,
+    "group": "Rows"
+  },
+  {
+    "id": "band-state",
+    "label": "Show a row while quiet mode or a pause is on",
+    "description": "One short row above the prompt, only while a restore point or a pause or snooze exists",
+    "default": false,
+    "group": "Rows"
+  },
+  {
+    "id": "notify-restore",
+    "label": "Pop-up when a pause or snooze ends",
+    "description": "One pop-up, at most one per rate-limit window, when switches are put back",
+    "default": false,
+    "group": "Notices"
+  }
+]

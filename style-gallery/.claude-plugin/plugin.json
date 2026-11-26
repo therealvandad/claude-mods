@@ -1,0 +1,7 @@
+{
+  "name": "style-gallery",
+  "version": "0.2.0",
+  "description": "A design-system gallery: one pane with 30 labelled style samples (radius, elevation, badges, toasts, modes, navigation patterns) drawn as vector images on the desktop and as text elsewhere, with /sgcopy to put a short written spec of any style in the prompt box",
+  "types": "./types/index.d.ts",
+  "dependencies": ["motion", "settings"]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "animations",
+  "version": "0.1.0",
+  "description": "Fourteen state-driven terminal animations (heartbeat, context tank, coin drop, sparkline draw-in, sliding tab underline, error shake, commit confetti, flip clock, badge flash, sky strip, skeleton shimmer, conveyor queue, ink-spread edits, ambient waves) on one shared ticker, with a lab pane and /anim",
+  "types": "./types/index.d.ts",
+  "dependencies": ["motion"]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "learning",
+  "version": "0.1.0",
+  "description": "Learning tools: glossaries, flashcards with spaced repetition, learning log, reading list, architecture map, skill tracker, explainer prompt-fillers and opt-in mentor, rubber-duck and beginner modes (/ln lists the commands)",
+  "types": "./types/index.d.ts"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "skins",
+  "version": "0.1.0",
+  "description": "A palette and style library you apply on demand with /skuse: 15 named palettes, an accent picker, contrast steps, rounded or square corners, glass cards and a paper grain. Nothing is applied by default",
+  "types": "./types/index.d.ts"
+}

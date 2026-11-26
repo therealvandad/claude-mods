@@ -1,0 +1,6 @@
+{
+  "name": "safety-pro",
+  "version": "0.1.0",
+  "description": "Safety and power workflow: dry-run, allowlist, hard budget, loop breaker, protected paths, opt-in checkpoints with confirmed rollback, pre-commit check, auto-compact, handoff note and a block log",
+  "types": "./types/index.d.ts"
+}

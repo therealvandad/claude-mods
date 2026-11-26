@@ -1,0 +1,15 @@
+{
+  "name": "controls",
+  "version": "0.1.0",
+  "description": "Trust and transparency: what every mod can do, outbound-host and folder ledgers, rule tester, temporary allow, per-project profiles, incident mode and a guard self-test, around tool-guard and safety-pro",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "startProfile": {
+      "type": "string",
+      "title": "Profile for projects that have none set",
+      "description": "Which of this mod's own rules apply in a project you have not set with /ctprofile: strict (extra built-in rules plus your blocks), normal (your blocks only) or off.",
+      "default": "normal",
+      "options": ["normal", "strict", "off"]
+    }
+  }
+}

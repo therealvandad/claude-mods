@@ -1,0 +1,6 @@
+{
+  "name": "review-kit",
+  "version": "0.1.0",
+  "description": "Review helper for code Claude changes: tickable checklist and 19 heuristic detectors (risky paths, test gaps, complexity, TODOs, dead code, naming, import cycles, API/dependency/config changes, error handling, logging, migrations, performance, accessibility, patch size) in one pane",
+  "types": "./types/index.d.ts"
+}

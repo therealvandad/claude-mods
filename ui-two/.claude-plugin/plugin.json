@@ -1,0 +1,10 @@
+{
+  "name": "ui-two",
+  "version": "0.2.0",
+  "description": "One pane with a view switcher: command bar, popover menu, activity feed, timeline, kanban, table, cards, calendar, treemap, graph, compare, replay, notices, print and presentation views, budget guard with rollover, forecast, prompt library with stats, model log, digest, goals, pomodoro and focus score",
+  "types": "./types/index.d.ts",
+  "dependencies": [
+    "motion",
+    "settings"
+  ]
+}

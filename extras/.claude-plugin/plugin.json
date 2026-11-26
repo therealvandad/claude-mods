@@ -1,0 +1,6 @@
+{
+  "name": "extras",
+  "version": "0.1.0",
+  "description": "Screen-share masking, away digest, smart alerts, prompt linter, session health, per-tool cost, replay scrubber, command cheatsheet, auto-title and a read-only snapshot browser",
+  "types": "./types/index.d.ts"
+}

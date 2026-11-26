@@ -1,0 +1,9 @@
+{
+  "name": "control-kit",
+  "version": "0.1.0",
+  "description": "Control surface for the other mods: one master quiet switch with exact restore, panic and safe mode, pause or snooze a mod for a while, previews and two-step confirms for bulk changes, undo, a read-only lock, a command palette, a permission summary, an audit log, a Bash block list, row pinning and ordering (/kc)",
+  "types": "./types/index.d.ts",
+  "dependencies": [
+    "settings"
+  ]
+}

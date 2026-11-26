@@ -1,0 +1,11 @@
+[
+  { "id": "svg", "label": "Vector samples", "description": "Draw each style as a real vector image on the desktop app (off: text samples everywhere)", "default": true, "group": "Gallery" },
+  { "id": "tooltips", "label": "Hover tooltips", "description": "Add hover titles to the parts of the vector samples", "default": true, "group": "Gallery" },
+  { "id": "animate", "label": "Animated previews", "description": "Shimmer, pulse and slide-in on a few vector samples (also needs /motion on and calm off)", "default": false, "group": "Effects" },
+  { "id": "toolbar", "label": "Search, filter and sort", "description": "The search box, filter chips and sort buttons above the samples", "default": true, "group": "Navigation" },
+  { "id": "zebra", "label": "Zebra rows and highlight band", "description": "Stripes and a band on the current row of the List tab (desktop: subtle backgrounds; elsewhere dimmed rows)", "default": true, "group": "Navigation" },
+  { "id": "sticky-headers", "label": "Sticky group headers", "description": "Repeat the group header at the top of the List tab once you scroll past it", "default": true, "group": "Navigation" },
+  { "id": "footer", "label": "Action footer", "description": "The row of actions (previous, next, copy spec, grid) at the bottom of the pane", "default": true, "group": "Navigation" },
+  { "id": "fab", "label": "Ask button", "description": "The primary + Ask for this style button at the end of the pane", "default": true, "group": "Navigation" },
+  { "id": "grid-overlay", "label": "Spacing grid overlay", "description": "Allow the 4 px grid to be drawn over the vector samples", "default": true, "group": "Gallery" }
+]

@@ -1,0 +1,7 @@
+{
+  "name": "assist-more",
+  "version": "0.1.0",
+  "description": "More helpers: environment doctor, project card, run-books, time estimates, split and decide helpers, risk and typo nudges, undo guide, plain-language mode, contrast checker, profiles, quiet hours, own sounds, sprite and goals. Every command starts with am (/am lists them).",
+  "types": "./types/index.d.ts",
+  "dependencies": ["settings"]
+}

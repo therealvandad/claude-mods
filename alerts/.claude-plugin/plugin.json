@@ -1,0 +1,6 @@
+{
+  "name": "alerts",
+  "version": "0.1.0",
+  "description": "One quiet notifier for this mod's notices: priority levels, digest, snooze, quiet hours, per-category mute, history, waiting-on-you band, deadline, cost, rate-limit, context, idle, disk and network alerts (all /al commands)",
+  "types": "./types/index.d.ts"
+}

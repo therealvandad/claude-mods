@@ -1,0 +1,6 @@
+{
+  "name": "prompting",
+  "version": "0.1.0",
+  "description": "Prompt craft: templates, context blocks, macros, queue, A/B, scorecard, diff, reword, clean-up, tone and other standing instructions (all off by default). Commands start with pm; /pm lists them.",
+  "types": "./types/index.d.ts"
+}

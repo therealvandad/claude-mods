@@ -1,0 +1,149 @@
+[
+  {
+    "id": "record",
+    "label": "Record calls and edits",
+    "description": "Keep a bounded list of tool calls, edited files and errors for the views (this session, plus daily totals)",
+    "default": true,
+    "group": "Recording"
+  },
+  {
+    "id": "record-prompts",
+    "label": "Record prompt times and lengths",
+    "description": "Count each prompt with its time and length; the text is never kept",
+    "default": true,
+    "group": "Recording"
+  },
+  {
+    "id": "prompt-snippets",
+    "label": "Keep prompt snippets",
+    "description": "Also keep the first 40 characters of each prompt, this session only",
+    "default": false,
+    "group": "Recording"
+  },
+  {
+    "id": "record-spend",
+    "label": "Sample spend and context",
+    "description": "Take a cost and context reading when a turn finishes",
+    "default": true,
+    "group": "Recording"
+  },
+  {
+    "id": "error-text",
+    "label": "Keep error messages",
+    "description": "Keep a short scrubbed message for failed calls so the Errors view can group them (this session only)",
+    "default": true,
+    "group": "Recording"
+  },
+  {
+    "id": "split",
+    "label": "Split view",
+    "description": "Show a second view next to or below the first",
+    "default": true,
+    "group": "Layout"
+  },
+  {
+    "id": "master-detail",
+    "label": "Master-detail lists",
+    "description": "On a wide pane, list on the left and the picked row's detail on the right",
+    "default": true,
+    "group": "Layout"
+  },
+  {
+    "id": "expand-rows",
+    "label": "Expandable rows",
+    "description": "Rows open in place to show their detail",
+    "default": true,
+    "group": "Layout"
+  },
+  {
+    "id": "accordion",
+    "label": "Accordion sections",
+    "description": "Sections fold open and shut; the choice is remembered between sessions",
+    "default": true,
+    "group": "Layout"
+  },
+  {
+    "id": "inline-sparks",
+    "label": "Inline sparklines",
+    "description": "A tiny chart at the end of a text row (an image on the desktop app, block characters elsewhere)",
+    "default": true,
+    "group": "Layout"
+  },
+  {
+    "id": "skeleton",
+    "label": "Skeleton loader",
+    "description": "Show grey placeholder bars for a moment when you switch views (only with motion on and calm off)",
+    "default": false,
+    "group": "Layout"
+  },
+  {
+    "id": "large-targets",
+    "label": "Large touch targets",
+    "description": "More padding around every button in the pane",
+    "default": false,
+    "group": "Access"
+  },
+  {
+    "id": "hotkeys",
+    "label": "Keyboard-first",
+    "description": "Give the pane's buttons hotkeys and open the pane with the keyboard",
+    "default": false,
+    "group": "Access"
+  },
+  {
+    "id": "entrance",
+    "label": "Entrance animation",
+    "description": "Charts rise into place when you open or switch a view (only with motion on and calm off)",
+    "default": true,
+    "group": "Motion"
+  },
+  {
+    "id": "pulse",
+    "label": "Pulse on change",
+    "description": "Briefly highlight a number that just changed (only with motion on and calm off)",
+    "default": true,
+    "group": "Motion"
+  },
+  {
+    "id": "checkmark",
+    "label": "Checkmark animation",
+    "description": "Draw a tick when the demo wizard finishes (still tick when motion is off)",
+    "default": true,
+    "group": "Motion"
+  },
+  {
+    "id": "confetti",
+    "label": "Confetti on milestones",
+    "description": "A short burst in the pane at 10, 25, 50, 100 ... tool calls",
+    "default": false,
+    "group": "Motion"
+  },
+  {
+    "id": "eta",
+    "label": "Estimated time for a running call",
+    "description": "A progress bar with a guess of the time left, from earlier calls of the same tool",
+    "default": true,
+    "group": "Progress"
+  },
+  {
+    "id": "eta-live",
+    "label": "Refresh the estimate every second",
+    "description": "Redraw once a second while a call runs, so the bar moves",
+    "default": false,
+    "group": "Progress"
+  },
+  {
+    "id": "optimistic",
+    "label": "Optimistic toggle demo",
+    "description": "In the Lab a toggle shows its new state at once, then confirms a moment later",
+    "default": true,
+    "group": "Lab"
+  },
+  {
+    "id": "undo-toast",
+    "label": "Undo toast",
+    "description": "A toast after removing a Lab item, saying /uiundo restores it for 30 seconds (one toast per 3 minutes)",
+    "default": true,
+    "group": "Lab"
+  }
+]

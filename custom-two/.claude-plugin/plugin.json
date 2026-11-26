@@ -1,0 +1,7 @@
+{
+  "name": "custom-two",
+  "version": "0.2.0",
+  "description": "Customizing, part two: colours per file type, a branch accent, event sounds, greetings and tips, empty states and pane titles, date ranges, saved filters and searches, report templates and exports, a hotkey map, a theme from a logo colour, icon sets, easing curves, a look schedule, focus modes, do-not-disturb, row-hiding rules, bundles, a checklist, a glossary and macros",
+  "types": "./types/index.d.ts",
+  "dependencies": ["motion", "settings"]
+}

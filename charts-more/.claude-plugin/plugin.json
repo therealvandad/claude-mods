@@ -1,0 +1,10 @@
+{
+  "name": "charts-more",
+  "version": "0.1.0",
+  "description": "More text charts (histogram, box plot, context ring, thermometer, fuel gauge, speedometer, battery, tag cloud, note network, folder tree, area, candlestick, pie bar, before/after slider) in one picker pane, with quiet state-driven animations",
+  "types": "./types/index.d.ts",
+  "dependencies": [
+    "motion",
+    "settings"
+  ]
+}

@@ -1,0 +1,10 @@
+[
+  { "id": "git-reads", "label": "Read git history", "description": "Allow the read-only git commands (graph, release notes, changelog, status) behind the /ae commands", "default": true, "group": "Reads" },
+  { "id": "disk-scan", "label": "Disk usage scan", "description": "Allow /aedisk to run du -sk on the top-level folders of the working directory (20 s limit)", "default": true, "group": "Reads" },
+  { "id": "file-reads", "label": "Read project files", "description": "Allow docs search, onboarding guide and cheatsheet to read README, docs and manifest files (32 KB at most each)", "default": true, "group": "Reads" },
+  { "id": "svg", "label": "Vector drawings", "description": "Draw the git graph and architecture sketch as SVG on the desktop app (text elsewhere)", "default": true, "group": "Look" },
+  { "id": "record-prompts", "label": "Record my prompts", "description": "Keep your last 60 prompts (clipped, tokens masked) for issue links, the quiz and glossary suggestions; session only", "default": false, "group": "Recording" },
+  { "id": "record-edits", "label": "Record edited files", "description": "Keep the paths of files Claude edits or writes this session, for the handoff pack", "default": false, "group": "Recording" },
+  { "id": "record-todos", "label": "Record the todo list", "description": "Keep the latest todo list Claude wrote this session, for the handoff pack", "default": false, "group": "Recording" },
+  { "id": "due-toast", "label": "Flashcards due toast", "description": "At session start, one toast when flashcards are due", "default": false, "group": "Reminders" }
+]

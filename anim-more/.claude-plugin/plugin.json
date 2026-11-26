@@ -1,0 +1,7 @@
+{
+  "name": "anim-more",
+  "version": "0.1.0",
+  "description": "Twenty more calm, state-driven terminal animations (pop-in hint, breathing glow, underline draw, button squish, staged toast, wave, spinners, typewriter, marquee, pulsing badge, spend drip, growing plant, rain, fireworks, balloons, page flip, dial, pendulum, walking pet, rocket) on one shared ticker, with a lab pane at /aylab and /ay",
+  "types": "./types/index.d.ts",
+  "dependencies": ["motion", "settings"]
+}

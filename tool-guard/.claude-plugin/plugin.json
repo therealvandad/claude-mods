@@ -1,0 +1,6 @@
+{
+  "name": "tool-guard",
+  "version": "0.1.0",
+  "description": "Blocks risky tool calls, badges commands by risk, and shows a pass/fail card under test runs",
+  "types": "./types/index.d.ts"
+}

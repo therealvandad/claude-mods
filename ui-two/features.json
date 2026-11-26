@@ -1,0 +1,114 @@
+[
+  {
+    "id": "record-activity",
+    "label": "Record tool calls",
+    "description": "Keep a bounded list of tool calls, edits, errors and file paths (this mod's own copy, local only) for the feed, table, timeline, treemap, graph and replay.",
+    "default": true,
+    "group": "Recording"
+  },
+  {
+    "id": "record-prompts",
+    "label": "Record prompt counts",
+    "description": "Keep each prompt's length and kind (never its text) for the feed and daily counters.",
+    "default": true,
+    "group": "Recording"
+  },
+  {
+    "id": "record-spend",
+    "label": "Record spend samples",
+    "description": "Sample the session cost estimate for daily spend, the budget guard and the forecast.",
+    "default": true,
+    "group": "Recording"
+  },
+  {
+    "id": "record-turns",
+    "label": "Record turns",
+    "description": "Keep each turn's model name, duration and cost delta, and measure prompts sent from your library.",
+    "default": true,
+    "group": "Recording"
+  },
+  {
+    "id": "prompt-excerpts",
+    "label": "Keep prompt excerpts",
+    "description": "Also keep the first 80 characters of each prompt for the feed and print view. Off keeps lengths only.",
+    "default": false,
+    "group": "Recording"
+  },
+  {
+    "id": "command-bar",
+    "label": "Command bar",
+    "description": "An input at the top of the pane that filters your stored commands and fills the prompt box.",
+    "default": true,
+    "group": "Pane"
+  },
+  {
+    "id": "popover-menu",
+    "label": "Actions menu",
+    "description": "The inline Actions menu under a button at the top of the pane.",
+    "default": true,
+    "group": "Pane"
+  },
+  {
+    "id": "svg-charts",
+    "label": "Vector charts (desktop)",
+    "description": "Draw the overview, timeline, treemap and graph as vector images with hover tooltips on the desktop app. Off keeps text charts.",
+    "default": true,
+    "group": "Pane"
+  },
+  {
+    "id": "presentation",
+    "label": "Presentation view",
+    "description": "The masked, figures-only presentation view.",
+    "default": true,
+    "group": "Pane"
+  },
+  {
+    "id": "notice-log",
+    "label": "Notification center log",
+    "description": "Log the budget warnings, due goals, finished pomodoros and digests this mod raises into the Notices view (no toast).",
+    "default": true,
+    "group": "Alerts"
+  },
+  {
+    "id": "budget-warn-80",
+    "label": "Budget toast at 80%",
+    "description": "A toast when today's spend reaches 80 percent of the daily allowance. Never blocks anything.",
+    "default": false,
+    "group": "Alerts"
+  },
+  {
+    "id": "budget-warn-100",
+    "label": "Budget toast at 100%",
+    "description": "A toast when today's spend reaches 100 percent of the daily allowance. Never blocks anything.",
+    "default": false,
+    "group": "Alerts"
+  },
+  {
+    "id": "goal-toasts",
+    "label": "Goal due toast",
+    "description": "A toast when a goal's due time passes.",
+    "default": false,
+    "group": "Alerts"
+  },
+  {
+    "id": "pomo-toast",
+    "label": "Pomodoro end toast",
+    "description": "A toast when a pomodoro or break ends.",
+    "default": false,
+    "group": "Alerts"
+  },
+  {
+    "id": "digest-morning",
+    "label": "Morning digest toast",
+    "description": "One toast with yesterday's figures at the first session start of a morning.",
+    "default": false,
+    "group": "Alerts"
+  },
+  {
+    "id": "live-timer",
+    "label": "Live pomodoro countdown",
+    "description": "Redraw the countdown each second while a pomodoro runs. Static when motion is off or settings are calm.",
+    "default": false,
+    "group": "Effects"
+  }
+]

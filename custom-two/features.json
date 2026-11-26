@@ -1,0 +1,11 @@
+[
+  { "id": "record", "label": "Record tool calls", "description": "Keep a bounded log (300) of tool name, result, file and branch, for the Log and Report tabs. Off: nothing is recorded", "default": false, "group": "Recording" },
+  { "id": "file-colours", "label": "File-type colours", "description": "Colour file names in the pane by extension", "default": true, "group": "Look" },
+  { "id": "branch-accent", "label": "Branch accent", "description": "Read the git branch (read-only git rev-parse) and tint the pane header by branch", "default": false, "group": "Look" },
+  { "id": "event-sounds", "label": "Event sounds", "description": "Play a sound from this mod's sounds folder on turn end, error and commit", "default": false, "group": "Sound" },
+  { "id": "greet-toast", "label": "Greeting at session start", "description": "One greeting toast when a session starts", "default": false, "group": "Toasts" },
+  { "id": "tip-toast", "label": "Daily tip", "description": "One tip toast per day, after a turn ends", "default": false, "group": "Toasts" },
+  { "id": "demo-motion", "label": "Curve demo motion", "description": "The easing demo in the Curves tab animates (needs /motion on and calm off)", "default": false, "group": "Effects" },
+  { "id": "dnd", "label": "Do-not-disturb schedule", "description": "Lets /cxdnd on run /cfg feature quiet and full at its times; nothing happens until /cxdnd on", "default": true, "group": "Automation" },
+  { "id": "hide-rules", "label": "Row-hiding rules", "description": "Apply the /cxrules rules: turn a mod's row off while a condition holds, restore after", "default": false, "group": "Automation" }
+]

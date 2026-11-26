@@ -1,0 +1,6 @@
+{
+  "name": "skins-plus",
+  "version": "0.1.0",
+  "description": "More looks, opt-in only: cyber, cozy night, high-visibility, print, weekday, per-project and per-branch tints, a look scheduler, sunrise accent, custom roles, theme import/export, dyslexia and large-type settings, a custom status line template",
+  "types": "./types/index.d.ts"
+}

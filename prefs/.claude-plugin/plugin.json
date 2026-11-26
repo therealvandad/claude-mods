@@ -1,0 +1,7 @@
+{
+  "name": "prefs",
+  "version": "0.2.0",
+  "description": "A second set of shared preferences (formats, language, time zone, toasts, charts, data, per-mod tables) that other mods can read from one atom, with formatting helpers, a Preferences pane, import and export, undo, per-project and per-branch layers, and work/home/demo profiles; /pf",
+  "types": "./types/index.d.ts",
+  "dependencies": ["settings"]
+}

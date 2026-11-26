@@ -1,0 +1,7 @@
+{
+  "name": "progress-more",
+  "version": "0.1.0",
+  "description": "Progress extras in one pane: quality trend, review bar, refactor/migration/upgrade trackers, test debt, docs coverage, cleanup meter, intentions, wrap/plan/win/share cards, season goals, and your own tips, prompt templates, toast rules, retention, tiles and number formats",
+  "types": "./types/index.d.ts",
+  "dependencies": ["settings"]
+}

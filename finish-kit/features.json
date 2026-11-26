@@ -1,0 +1,7 @@
+[
+  { "id": "remember", "label": "Bring back my finish at start", "description": "Re-apply the finish you last applied, once, when a session starts (also needs /fnremember on)", "default": false, "group": "Startup" },
+  { "id": "month", "label": "Accent of the month", "description": "Let /fnapply use the month's accent when you give none (also needs /fnmonth on; never changes by itself)", "default": true, "group": "Colour" },
+  { "id": "title-icons", "label": "Icons in pane titles", "description": "Put a small icon in front of every pane title, in this and other mods' panes", "default": false, "group": "Panes" },
+  { "id": "svg-previews", "label": "Vector previews", "description": "Draw the live SVG previews in the studio pane on the desktop app", "default": true, "group": "Studio" },
+  { "id": "cvd-preview", "label": "Colour-blind preview", "description": "Allow the colour-blind simulation to recolour the previews", "default": true, "group": "Studio" }
+]

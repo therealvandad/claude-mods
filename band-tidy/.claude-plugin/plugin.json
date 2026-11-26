@@ -1,0 +1,1 @@
+{ "name": "band-tidy", "version": "0.1.0", "description": "Tidies the area above the prompt: keeps a short list of rows, hides the rest, and lets you choose with /tidy" }

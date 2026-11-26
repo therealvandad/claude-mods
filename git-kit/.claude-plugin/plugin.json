@@ -1,0 +1,1 @@
+{ "name": "git-kit", "version": "0.1.0", "description": "Read-only git helpers: commit-style learner, branch names, PR drafts, changelog, status map, merge preview, stash/worktree/submodule views, repo health and merge readiness. Every command starts with gk.", "types": "./types/index.d.ts" }

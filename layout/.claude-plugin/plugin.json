@@ -1,0 +1,6 @@
+{
+  "name": "layout",
+  "version": "0.1.0",
+  "description": "How things are drawn: zen mode, split view, floating note, sticky headers, collapsible sections, width and density controls, error and long-output banners, icon packs and a colour legend",
+  "types": "./types/index.d.ts"
+}

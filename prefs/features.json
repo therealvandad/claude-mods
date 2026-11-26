@@ -1,0 +1,9 @@
+[
+  { "id": "auto-open", "label": "Open Preferences at start", "description": "At session start, open the Preferences pane when the preference autoopen.prefs is on", "default": false, "group": "Start-up" },
+  { "id": "auto-profile", "label": "Profile by time of day", "description": "Apply a profile on a schedule (also needs /pfauto on); checked at start and every 30 minutes while on", "default": false, "group": "Profiles" },
+  { "id": "auto-toast", "label": "Say when a profile was applied", "description": "One short toast (at most one per 3 minutes) when the schedule switches the profile", "default": false, "group": "Profiles" },
+  { "id": "remember-tab", "label": "Remember the last tab", "description": "Keep the last tab you used when the preference pane.remember is on", "default": true, "group": "Pane" },
+  { "id": "history", "label": "Record the change history", "description": "Keep the last 30 changes so /pfundo works; off means no undo", "default": true, "group": "Recording" },
+  { "id": "project-overrides", "label": "Apply per-project layers", "description": "Use the project layer when the scope is per-project", "default": true, "group": "Scope" },
+  { "id": "branch-overrides", "label": "Read the git branch for branch layers", "description": "Runs a read-only git rev-parse at start (and on /pfproject refresh) so a per-branch layer can apply", "default": false, "group": "Scope" }
+]

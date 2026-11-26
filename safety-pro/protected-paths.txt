@@ -1,0 +1,13 @@
+# safety-pro protected paths (one per line). Edit and Write are denied on a match.
+# Also used to hold mutating Bash commands that name one of these paths.
+#
+#   name or glob without a slash  -> matches any path segment (`*.pem`, `.npmrc`, `.git/`)
+#   path with a slash             -> relative to the project folder, or absolute
+#                                    (a folder protects everything inside it; * and ** work)
+# Lines starting with # are ignored. Changes apply on the next tool call.
+# Add more from the chat with: /protect <path>   (stored per user, not in this file)
+
+.git/
+*.pem
+*.p12
+.npmrc

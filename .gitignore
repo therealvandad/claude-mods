@@ -1,0 +1,5 @@
+.DS_Store
+*.log
+node_modules/
+# editor types the engine generates
+**/.claude-plugin/types/

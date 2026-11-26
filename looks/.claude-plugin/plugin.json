@@ -1,0 +1,8 @@
+{
+  "name": "looks",
+  "version": "0.1.0",
+  "description": "A /look picker: no theme by default, then opt-in palettes (paper, nord, solarized, sepia, high contrast, seasons, time of day, per project, per model) and subtle moving backdrops",
+  "dependencies": [
+    "motion"
+  ]
+}

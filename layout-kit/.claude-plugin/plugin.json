@@ -1,0 +1,9 @@
+{
+  "name": "layout-kit",
+  "version": "0.2.0",
+  "description": "A customizable dashboard builder: one pane of tiles (calls, errors, files, spend, context, time, todos and your own text, number and formula tiles) with named pages, saved and per-project layouts, snippets, aliases, templates, rules, badges and goals. Affects only its own pane.",
+  "types": "./types/index.d.ts",
+  "dependencies": [
+    "settings"
+  ]
+}
