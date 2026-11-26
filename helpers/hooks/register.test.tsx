@@ -304,3 +304,44 @@ test('this mod draws its section in the shared Mod manager panel', async ($, on)
   expect(w.saved.off).toEqual(['sound'])
   await ui.unmount()
 })
+
+// a stand-in for mod-manager: it draws the two controls this mod listens to
+const manager = {
+  name: 'mod-manager',
+  register: (on: any) => {
+    on('ui.render', { component: 'Pane', requestId: 'mod-settings' }, async ($: any, e: any, next: any) => {
+      const { Box, Button, Input } = $.ui.resolve(e)
+
+      return (
+        <Box flexDirection="column">
+          <Input key="find-setting" onInput={() => undefined} onSubmit={() => undefined} />
+          <Button key="preset-calm" label="Calm" onPress={() => undefined} />
+          {await next(e)}
+        </Box>
+      )
+    })
+  },
+}
+
+test('the manager search box and Calm preset reach this mod, and Calm keeps the guards', { plugins: [manager] }, async ($, on) => {
+  const w = world(on)
+  await $.session.start(START)
+  const ui = await $.ui.mount({
+    plugin: 'mod-manager',
+    component: 'Pane',
+    requestId: 'mod-settings',
+    surface: 'desktop',
+    props: { title: 'Mod manager', isFocused: false, bodyColumns: 80, placement: 'dock', scroll: { offset: 0, bodyRows: 30 }, view: {} },
+  } as any)
+  expect(await words(ui)).toContain('Time and cost')
+
+  await ui.input({ key: 'find-setting', plugin: 'mod-manager', text: 'sound' } as any)
+  expect(await words(ui)).toContain('Sound after long tasks')
+  expect(await words(ui)).not.toContain('Time and cost')
+
+  await ui.press({ key: 'preset-calm', plugin: 'mod-manager' })
+  expect(w.saved.off).toContain('footer')
+  expect(w.saved.off).not.toContain('secrets')
+  expect(w.saved.off).not.toContain('commitguard')
+  await ui.unmount()
+})

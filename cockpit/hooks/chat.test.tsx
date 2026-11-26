@@ -160,7 +160,7 @@ test('this mod draws its section in the shared Mod manager panel', async ($, on)
     props: { title: 'Mod manager', isFocused: false, bodyColumns: 80, placement: 'dock', scroll: { offset: 0, bodyRows: 30 }, view: {} },
   } as any)
 
-  expect((await ui.findAll({ type: 'Text' })).map((n: any) => (n.children ?? []).join('')).join('\n')).toContain('Look and chat (cockpit)')
+  expect((await ui.findAll({ type: 'Text' })).map((n: any) => (n.children ?? []).join('')).join('\n')).toContain('Look and chat')
   await ui.press({ key: 'cp-rows', plugin: 'cockpit' })
   expect(w.saved.view).toMatchObject({ rows: false })
   await ui.unmount()

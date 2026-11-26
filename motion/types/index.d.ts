@@ -29,6 +29,7 @@ export type Summary = { at: number; items: SummaryItem[]; live: boolean } | null
 declare module 'claude-code' {
   interface PluginState {
     motion: {
+      panelQuery: string
       now: number
       isOn: boolean
       gauges: Shaped<Record<string, Gauge>>

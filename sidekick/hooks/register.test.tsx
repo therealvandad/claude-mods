@@ -222,7 +222,7 @@ test('project, today and servers tabs, with a section in the shared settings pan
 
   const shared = await $.ui.mount(pane('mod-manager', 'mod-settings'))
   expect(await words(shared)).toContain('Sidekick')
-  expect(await labels(shared)).toContain('Claim checker: on')
+  expect(await words(shared)).toContain('Claim checker')
   await shared.unmount()
 })
 

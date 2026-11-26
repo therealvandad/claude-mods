@@ -2,6 +2,7 @@ import { atom, read, update } from 'claude-code'
 import type { ElementTable, Hook, Register, Timer } from 'claude-code'
 
 // Global reduced-motion switch: owned by the `motion` mod (`/motion on|off`).
+const panelQuery = atom({ plugin: 'cockpit', key: 'panelQuery' } as const, '')
 const motionIsOn = atom({ plugin: 'motion', key: 'isOn' } as const, true)
 // Shared look switches owned by the `settings` mod (read only): calm means no decorative motion.
 const settingsIsCalm = atom({ plugin: 'settings', key: 'isCalm' } as const, false)
@@ -46,7 +47,7 @@ import {
 } from './plain'
 import type { View } from './plain'
 import { drawSteps, stepsOf, styleFor } from './chat'
-import { isPremium, premiumStyle, scene, stepBar } from './premium'
+import { isPremium, PREMIUM_NAMES, premiumStyle, scene, stepBar } from './premium'
 import type { LookOptions } from './premium'
 import { COLOR_NAMES, colorLabel, colorName, themeFor } from './colors'
 import { addMark, drawNote, errorNote, markNote, settleMarks, SLOW_MS, slowNote } from './rows'
@@ -768,33 +769,86 @@ const loadStore = async (d: Dollar) => {
 
 // ---------------------------------------------------------------- the mod
 
+const applyPanelPreset = async (d: Dollar, name: string) => {
+  if (name === 'calm') {
+    await setView(d, { rows: false, alert: false, clean: true })
+  } else if (name === 'careful') {
+    await setView(d, { rows: true, clean: false })
+  } else if (name === 'everything') {
+    await setView(d, { rows: true, alert: true, clean: false })
+  }
+}
+
 export const register: Register = on => {
   // This mod's own section in the shared "Mod manager" settings panel.
   on('ui.render', { component: 'Pane', plugin: '*', requestId: 'mod-settings' }, async ($, e, next) => {
-    const { Box, Text, Button } = $.ui.resolve(e)
+    const ui = $.ui.resolve(e)
+    const { Box, Text, Button, Select } = ui
+    const Svg = e.surface === 'desktop' ? (ui as ElementTable<'desktop'>).Svg : undefined
     const how = await read($, view)
+    const options = optionsOf(how)
+    const current = colorName(how.colors)
+    const query = await read($, panelQuery)
+    const hit = (label: string) => query === '' || label.toLowerCase().includes(query)
+    const Row = (key: string, label: string, value: string, press: () => unknown) =>
+      hit(label) ? (
+        <Box justifyContent="space-between" gap="sm">
+          <Text>{label}</Text>
+          <Button key={key} variant={value === 'On' ? 'primary' : undefined} label={value} onPress={press} />
+        </Box>
+      ) : null
+    const rows = [
+      Row('cp-rows', 'Notes under rows', how.rows === false ? 'Off' : 'On', () => setView($, { rows: how.rows === false })),
+      Row('cp-clean', 'Row above the message box', how.clean ? 'Off' : 'On', () => setView($, { clean: !how.clean })),
+      Row('cp-alert', 'Done pop-up', how.alert ? 'On' : 'Off', () => setView($, { alert: !how.alert })),
+      Row('cp-chat', 'Chat styling', how.chat === false ? 'Off' : 'On', () => setView($, { chat: how.chat === false })),
+      Row('cp-look', 'Cockpit panels', how.look === 'plain' ? 'Plain' : 'Rich', () => setView($, { look: how.look === 'plain' ? 'rich' : 'plain' })),
+    ].filter(Boolean)
+    if (hit('theme look color glass text size corners')) {
+      rows.unshift(
+        <Box flexDirection="column" gap="sm">
+          <Box gap="sm" flexWrap="wrap">
+            {PREMIUM_NAMES.map(n => (
+              <Box flexDirection="column" alignItems="center">
+                {Svg !== undefined && <Svg source={scene(n, false)} alt={`${colorLabel(n)} preview`} width={112} height={70} />}
+                <Button key={`cp-colors-${n}`} variant={current === n ? 'primary' : undefined} label={colorLabel(n)} onPress={() => setView($, { colors: n })} />
+              </Box>
+            ))}
+          </Box>
+          <Select key="cp-theme" label="Theme" value={current} options={COLOR_NAMES.map(c => ({ value: c, label: colorLabel(c) }))} onSelect={(v: string) => setView($, { colors: colorName(v) })} />
+          <Select key="cp-size" label="Text size" value={options.size} options={[{ value: 'small', label: 'Small' }, { value: 'medium', label: 'Medium' }, { value: 'large', label: 'Large' }]} onSelect={(v: string) => setView($, { size: v as LookOptions['size'] })} />
+          <Select key="cp-glass" label="Glass" value={options.glass} options={[{ value: 'clear', label: 'Clear' }, { value: 'frosted', label: 'Frosted' }, { value: 'solid', label: 'Solid' }]} onSelect={(v: string) => setView($, { glass: v as LookOptions['glass'] })} />
+          <Select key="cp-corners" label="Corners" value={options.corners} options={[{ value: 'soft', label: 'Soft' }, { value: 'sharp', label: 'Sharp' }]} onSelect={(v: string) => setView($, { corners: v as LookOptions['corners'] })} />
+        </Box>,
+      )
+    }
 
     return (
       <Box flexDirection="column">
         {await next(e)}
-        <Box flexDirection="column" marginTop="md">
-          <Text weight="bold">Look and chat (cockpit)</Text>
-          <Box gap="sm" flexWrap="wrap">
-            <Button key="cp-chat" label={`Chat style: ${how.chat === false ? 'off' : how.chatStyle === 'clean' ? 'clean' : 'roomy'}`} onPress={() => setView($, how.chat === false ? { chat: true, chatStyle: 'roomy' } : how.chatStyle === 'clean' ? { chat: false } : { chatStyle: 'clean' })} />
-            {COLOR_NAMES.map(c => (
-              <Button key={`cp-colors-${c}`} label={`${colorName(how.colors) === c ? '● ' : ''}${colorLabel(c)}`} onPress={() => setView($, { colors: c })} />
-            ))}
-            <Button key="cp-size" label={`Text size: ${optionsOf(how).size}`} onPress={() => setView($, { size: optionsOf(how).size === 'small' ? 'medium' : optionsOf(how).size === 'medium' ? 'large' : 'small' })} />
-            <Button key="cp-glass" label={`Glass: ${optionsOf(how).glass}`} onPress={() => setView($, { glass: optionsOf(how).glass === 'clear' ? 'frosted' : optionsOf(how).glass === 'frosted' ? 'solid' : 'clear' })} />
-            <Button key="cp-corners" label={`Corners: ${optionsOf(how).corners}`} onPress={() => setView($, { corners: optionsOf(how).corners === 'soft' ? 'sharp' : 'soft' })} />
-            <Button key="cp-rows" label={`Notes under rows: ${how.rows === false ? 'off' : 'on'}`} onPress={() => setView($, { rows: how.rows === false })} />
-            <Button key="cp-clean" label={`Row above the box: ${how.clean ? 'hidden' : 'shown'}`} onPress={() => setView($, { clean: !how.clean })} />
-            <Button key="cp-alert" label={`Done pop-up: ${how.alert ? 'on' : 'off'}`} onPress={() => setView($, { alert: !how.alert })} />
-            <Button key="cp-look" label={`Panels: ${how.look}`} onPress={() => setView($, { look: how.look === 'plain' ? 'rich' : 'plain' })} />
+        {rows.length > 0 && (
+          <Box flexDirection="column" marginTop="md" gap="sm">
+            <Text weight="bold">Look and chat</Text>
+            {rows}
           </Box>
-        </Box>
+        )}
       </Box>
     )
+  })
+
+  // The panel's search box and preset buttons belong to mod-manager; this mod follows them.
+  on('ui.input', { plugin: 'mod-manager', element: 'find-setting' }, async ($, e, next) => {
+    const done = await next(e)
+    await update($, panelQuery, () => String((e as unknown as { value?: unknown }).value ?? '').toLowerCase().trim())
+
+    return done
+  })
+
+  on('ui.press', { plugin: 'mod-manager', element: /^preset-(calm|careful|everything)$/ }, async ($, e, next) => {
+    const done = await next(e)
+    await applyPanelPreset($, String((e as unknown as { element?: unknown }).element ?? '').replace('preset-', ''))
+
+    return done
   })
 
   on('session.start', async ($, e, next) => {

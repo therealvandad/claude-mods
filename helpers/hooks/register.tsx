@@ -39,6 +39,7 @@ const EDITS = new Set(['Edit', 'Write', 'NotebookEdit'])
 const STEP_TOOLS = new Set(['TodoWrite', 'mcp__ccd_turn__update_plan', 'mcp__ccd_turn__wrap_up'])
 const AWAY_MS = 3 * 3_600_000
 
+const panelQuery = atom({ plugin: 'helpers', key: 'panelQuery' } as const, '')
 const show = atom({ plugin: 'helpers', key: 'show' } as const, { off: [], quiet: false } as Show, { shape: 'show-1' })
 const tab = atom({ plugin: 'helpers', key: 'tab' } as const, 'switches' as Tab)
 const changes = atom({ plugin: 'helpers', key: 'changes' } as const, [] as Change[], { shape: 'changes-1' })
@@ -208,26 +209,62 @@ const restoreDraft = (d: Dollar, text: string) => {
   })
 }
 
+// Presets never switch a guard off: Calm only hides the extra lines and sounds.
+const applyPreset = async (d: Dollar, name: string) => {
+  const how = await read(d, show)
+
+  if (name === 'calm') {
+    await setShow(d, { quiet: false, off: [...new Set([...how.off, 'footer', 'question', 'summary', 'sound', 'usual', 'tomorrow'])] })
+  } else if (name === 'careful' || name === 'everything') {
+    await setShow(d, { quiet: false, off: [] })
+  }
+}
+
 export const register: Register = (on, options) => {
   // This mod's own section in the shared "Mod manager" settings panel.
   on('ui.render', { component: 'Pane', plugin: '*', requestId: 'mod-settings' }, async ($, e, next) => {
     const { Box, Text, Button } = $.ui.resolve(e)
     const how = await read($, show)
+    const query = await read($, panelQuery)
+    const hit = (label: string) => query === '' || label.toLowerCase().includes(query)
+    const Row = (key: string, label: string, value: string, press: () => unknown) =>
+      hit(label) ? (
+        <Box justifyContent="space-between" gap="sm">
+          <Text>{label}</Text>
+          <Button key={key} variant={value === 'On' ? 'primary' : undefined} label={value} onPress={press} />
+        </Box>
+      ) : null
+    const rows = [
+      Row('hp-quiet', 'Quiet mode', how.quiet ? 'On' : 'Off', () => toggleQuiet($)),
+      ...FEATURES.map(f => Row(`hp-${f.id}`, f.label, setOff.includes(f.id) || !isOn(how, f.id) ? 'Off' : 'On', () => toggle($, f.id))),
+    ].filter(Boolean)
 
     return (
       <Box flexDirection="column">
         {await next(e)}
-        <Box flexDirection="column" marginTop="md">
-          <Text weight="bold">Helpers</Text>
-          <Box gap="sm" flexWrap="wrap">
-            <Button key="hp-quiet" label={`Quiet mode: ${how.quiet ? 'on' : 'off'}`} onPress={() => toggleQuiet($)} />
-            {FEATURES.map(f => (
-              <Button key={`hp-${f.id}`} label={`${f.label}: ${setOff.includes(f.id) ? 'off' : isOn(how, f.id) ? 'on' : 'off'}`} onPress={() => toggle($, f.id)} />
-            ))}
+        {rows.length > 0 && (
+          <Box flexDirection="column" marginTop="md" gap="sm">
+            <Text weight="bold">Helpers</Text>
+            {rows}
           </Box>
-        </Box>
+        )}
       </Box>
     )
+  })
+
+  // The panel's search box and preset buttons belong to mod-manager; this mod follows them.
+  on('ui.input', { plugin: 'mod-manager', element: 'find-setting' }, async ($, e, next) => {
+    const done = await next(e)
+    await update($, panelQuery, () => String((e as unknown as { value?: unknown }).value ?? '').toLowerCase().trim())
+
+    return done
+  })
+
+  on('ui.press', { plugin: 'mod-manager', element: /^preset-(calm|careful|everything)$/ }, async ($, e, next) => {
+    const done = await next(e)
+    await applyPreset($, String((e as unknown as { element?: unknown }).element ?? '').replace('preset-', ''))
+
+    return done
   })
 
   setOff = ['footer', 'question', 'sound'].filter(id => options?.[id] === false)

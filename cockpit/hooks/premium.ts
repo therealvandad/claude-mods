@@ -22,7 +22,7 @@ type Look = {
   heading: Hex
   font: 'sans' | 'serif'
   user: Card & { stops?: [Hex, Hex]; italic?: boolean }
-  reply: Card
+  reply: Card & { stops?: [Hex, Hex] }
   tool: Card
   bar: [Hex, Hex]
   art: string
@@ -39,20 +39,33 @@ const blob = (cls: string, cx: number, cy: number, rx: number, ry: number, id: s
 const drift = (rows: readonly (readonly [string, number, number, number])[]) =>
   rows.map(([c, s, x, y]) => `.${c}{animation:${c} ${s}s ease-in-out infinite}@keyframes ${c}{50%{transform:translate(${x}px,${y}px)}}`).join('')
 
+/** A curtain of light: soft upright rays along a slow wave, so it has no hard edge anywhere. */
+const curtain = (cls: string, id: string, count: number, y: number, wave: number, phase: number) =>
+  `<g class="${cls}">${Array.from({ length: count }, (_, i) => {
+    const x = Math.round(-80 + (1760 / (count - 1)) * i)
+    const at = Math.round(y + Math.sin(i * 0.42 + phase) * wave)
+    const tall = 150 + ((i * 53) % 5) * 34
+    const strength = (0.45 + ((i * 31) % 6) * 0.1).toFixed(2)
+
+    return `<ellipse cx="${x}" cy="${at}" rx="${46 + ((i * 17) % 4) * 9}" ry="${tall}" fill="url(#${id})" fill-opacity="${strength}"/>`
+  }).join('')}</g>`
+
+const CURTAINS = curtain('e', 's1', 30, 300, 120, 0) + curtain('f', 's2', 24, 520, 150, 2.2) + curtain('g', 's3', 18, 150, 70, 4)
+
 const STARS = Array.from({ length: 22 }, (_, i) => `<circle cx="${(i * 397) % 1580 + 10}" cy="${(i * 211) % 420 + 20}" r="${1 + (i % 3) * 0.6}" fill="#ffffff" fill-opacity="${0.25 + (i % 4) * 0.12}"/>`).join('')
 const BUBBLES = Array.from({ length: 9 }, (_, i) => `<circle class="u${i % 3}" cx="${120 + i * 170}" cy="${760 + (i % 4) * 60}" r="${4 + (i % 3) * 3}" fill="none" stroke="#9fe8f0" stroke-opacity="0.3" stroke-width="1.5"/>`).join('')
 
 export const LOOKS: Record<PremiumName, Look> = {
   aurora: {
     label: 'Aurora Glass', mode: 'dark', page: '#090d22', surfaces: ['#111737', '#171e45', '#1e2652'], text: ['#f2f4ff', '#c9d0f2', '#a8b1da'],
-    accent: '#8b7cff', heading: '#ffffff', font: 'sans',
+    accent: '#8b7cff', heading: '#9ff5e2', font: 'sans',
     user: { text: '#ffffff', bg: '#4a3fc4', border: '#ffffff30', stops: ['#5a47d6', '#0d7f76'] },
-    reply: { text: '#eaedff', bg: '#141b40e8', border: '#ffffff30' },
-    tool: { text: '#d9deff', bg: '#18204ae8', border: '#ffffff26' },
+    reply: { text: '#eaedff', bg: '#161e48ee', border: '#a0b4ff55', stops: ['#28346cee', '#101636ee'] },
+    tool: { text: '#d9deff', bg: '#161e48ee', border: '#2ee6c973' },
     bar: ['#8b7cff', '#2ee6c9'],
-    art: `<defs>${glow('g1', '#5b45f0', 0.8)}${glow('g2', '#12a89c', 0.7)}${glow('g3', '#9a2f97', 0.68)}${glow('g4', '#2458d8', 0.55)}</defs>` +
-      blob('a', 260, 150, 640, 230, 'g1') + blob('b', 1220, 210, 620, 200, 'g2') + blob('c', 800, 960, 760, 260, 'g3') + blob('d', 1480, 720, 420, 300, 'g4'),
-    motion: drift([['a', 38, 190, 50], ['b', 46, -220, 70], ['c', 52, 150, -60], ['d', 60, -130, -120]]),
+    art: `<defs>${glow('g1', '#5b45f0', 0.6)}${glow('g2', '#12a89c', 0.45)}${glow('g3', '#9a2f97', 0.55)}${glow('g4', '#2458d8', 0.45)}${glow('s1', '#2ee6c9', 0.52)}${glow('s2', '#7c5cff', 0.5)}${glow('s3', '#c25ad8', 0.42)}</defs>` +
+      blob('a', 260, 150, 640, 230, 'g1') + blob('b', 1220, 210, 620, 200, 'g2') + blob('c', 800, 960, 760, 260, 'g3') + blob('d', 1480, 720, 420, 300, 'g4') + CURTAINS + STARS,
+    motion: drift([['a', 38, 190, 50], ['b', 46, -220, 70], ['c', 52, 150, -60], ['d', 60, -130, -120], ['e', 34, 150, 40], ['f', 44, -170, -34], ['g', 52, 120, 56]]),
   },
   midnightpro: {
     label: 'Midnight Pro', mode: 'dark', page: '#0a0a0c', surfaces: ['#101013', '#141418', '#1b1b21'], text: ['#ededf0', '#bdbdc6', '#9c9ca7'],
@@ -162,7 +175,17 @@ export const premiumStyle = (name: PremiumName, o: LookOptions): ThemeStyle => {
       paddingY: 12,
       shadow,
     },
-    AssistantMessage: { color: l.reply.text, backgroundColor: l.reply.bg, borderColor: l.reply.border, borderWidth: 1, radius, paddingX: 18, paddingY: 14, shadow },
+    AssistantMessage: {
+      color: l.reply.text,
+      backgroundColor: l.reply.bg,
+      ...(l.reply.stops === undefined ? {} : { fill: { gradient: { angle: 160, stops: l.reply.stops } } }),
+      borderColor: l.reply.border,
+      borderWidth: 1,
+      radius,
+      paddingX: 18,
+      paddingY: 14,
+      shadow,
+    },
     ToolUse: { color: l.tool.text, fontFamily: ['mono'], backgroundColor: l.tool.bg, borderColor: l.tool.border, borderWidth: 1, radius, paddingX: 14, paddingY: 8 },
   }
 }

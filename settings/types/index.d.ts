@@ -6,6 +6,7 @@ export type Preset = 'calm' | 'focus' | 'full' | 'custom'
 declare module 'claude-code' {
   interface PluginState {
     settings: {
+      panelQuery: string
       accent: Accent
       density: Density
       icons: IconPack

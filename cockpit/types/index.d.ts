@@ -80,6 +80,7 @@ export type BarLive = {
 declare module 'claude-code' {
   interface PluginState {
     cockpit: {
+      panelQuery: string
       tab: string
       now: number
       sessionStart: number

@@ -24,6 +24,7 @@ import type { FeaturePreset, Overrides } from './features'
 
 type Dollar = Parameters<Hook<'session.start'>>[0]
 
+const panelQuery = atom({ plugin: 'settings', key: 'panelQuery' } as const, '')
 const accent = atom({ plugin: 'settings', key: 'accent' } as const, 'suggestion')
 const density = atom({ plugin: 'settings', key: 'density' } as const, 'normal')
 const icons = atom({ plugin: 'settings', key: 'icons' } as const, 'symbols')
@@ -195,18 +196,38 @@ export const register: Register = on => {
   on('ui.render', { component: 'Pane', plugin: '*', requestId: 'mod-settings' }, async ($, e, next) => {
     const { Box, Text, Button } = $.ui.resolve(e)
     const calm = await read($, isCalm)
+    const query = await read($, panelQuery)
+    const hit = (label: string) => query === '' || label.toLowerCase().includes(query)
+    const Row = (key: string, label: string, value: string, press: () => unknown) =>
+      hit(label) ? (
+        <Box justifyContent="space-between" gap="sm">
+          <Text>{label}</Text>
+          <Button key={key} variant={value === 'On' ? 'primary' : undefined} label={value} onPress={press} />
+        </Box>
+      ) : null
+    const rows = [
+      Row('st-calm', 'Calm mode', calm ? 'On' : 'Off', () => setOne($, 'calm', calm ? 'off' : 'on')),
+    ].filter(Boolean)
 
     return (
       <Box flexDirection="column">
         {await next(e)}
-        <Box flexDirection="column" marginTop="md">
-          <Text weight="bold">Shared (settings)</Text>
-          <Box gap="sm" flexWrap="wrap">
-            <Button key="st-calm" label={`Calm mode: ${calm ? 'on' : 'off'}`} onPress={() => setOne($, 'calm', calm ? 'off' : 'on')} />
+        {rows.length > 0 && (
+          <Box flexDirection="column" marginTop="md" gap="sm">
+            <Text weight="bold">Shared</Text>
+            {rows}
           </Box>
-        </Box>
+        )}
       </Box>
     )
+  })
+
+  // The panel's search box and preset buttons belong to mod-manager; this mod follows them.
+  on('ui.input', { plugin: 'mod-manager', element: 'find-setting' }, async ($, e, next) => {
+    const done = await next(e)
+    await update($, panelQuery, () => String((e as unknown as { value?: unknown }).value ?? '').toLowerCase().trim())
+
+    return done
   })
 
   on('session.start', async ($, e, next) => {

@@ -906,7 +906,7 @@ export const CATALOG: readonly CatalogMod[] = [
   },
   {
     "name": "cockpit",
-    "version": "0.12.0",
+    "version": "0.13.0",
     "description": "One tabbed cockpit pane (overview, tool timeline, files, todo, history, errors, links, palette) plus a git/spend band, forecasts, shelves and pins",
     "help": "cockpit",
     "helpDesc": "Open the cockpit pane: /cockpit [overview|timeline|files|todo|history|errors|links|palette]",
@@ -1993,7 +1993,7 @@ export const CATALOG: readonly CatalogMod[] = [
   },
   {
     "name": "helpers",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "description": "Quiet helpers: plain-words approvals, delete preview, secret and commit guards, changes and steps panels, time and cost under replies, welcome-back summary, right-click extras, notes and /quietmode",
     "help": "helpers",
     "helpDesc": "Helpers: switches, changes, steps and notes. /helpers allow-commit lets one held commit through",
@@ -2387,7 +2387,7 @@ export const CATALOG: readonly CatalogMod[] = [
   },
   {
     "name": "mod-manager",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "description": "Front door for a collection of mods and other Claude plugins: catalog, installed list, bundles, remote update check, and install/enable/disable/update/uninstall command lines you can copy or run after a two-step confirm; a Features tab turns each mod's pop-up…",
     "help": "mm",
     "helpDesc": "Mod manager: open the pane and list every command",
@@ -2458,7 +2458,7 @@ export const CATALOG: readonly CatalogMod[] = [
   },
   {
     "name": "motion",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "Calm motion for the interface: eased gauges, number tickers, status typing and pulse, tool-row shimmer and check pops, spring timer ring, idle breathing, test celebration, and a /motion on|off switch",
     "help": "motion",
     "helpDesc": "Motion on/off: /motion on|off|demo|timer <minutes>",
@@ -3183,7 +3183,7 @@ export const CATALOG: readonly CatalogMod[] = [
   },
   {
     "name": "settings",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "description": "Shared look-and-feel settings (accent, density, icons, preset) and per-mod feature switches (pop-ups, sounds, status line, rows above the prompt) that other mods can read; /cfg to change them",
     "help": "cfg",
     "helpDesc": "Shared look and feel and per-mod feature switches: /cfg preset calm|focus|full, /cfg accent|density|icons <value>, /cfg…",
@@ -3200,7 +3200,7 @@ export const CATALOG: readonly CatalogMod[] = [
   },
   {
     "name": "sidekick",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Claim checker, loose ends, standing rules, prompt queue, daily summary, project card, running servers, file rewind, sensitive-file and branch warnings, right-click teach and prove",
     "help": "sidekick",
     "helpDesc": "Loose ends, rules, queue, today, project card, servers and rewind",

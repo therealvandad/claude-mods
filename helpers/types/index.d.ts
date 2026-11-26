@@ -3,6 +3,7 @@ export type HelpersShow = { off: string[]; quiet: boolean }
 declare module 'claude-code' {
   interface PluginState {
     helpers: {
+      panelQuery: string
       show: Shaped<{ off: string[]; quiet: boolean }>
       tab: 'switches' | 'changes' | 'steps' | 'notes'
       changes: Shaped<{ path: string; added: number; removed: number }[]>

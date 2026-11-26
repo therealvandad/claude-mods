@@ -1,6 +1,7 @@
 declare module 'claude-code' {
   interface PluginState {
     sidekick: {
+      panelQuery: string
       off: Shaped<string[]>
       tab: 'loose' | 'rules' | 'queue' | 'today' | 'project' | 'servers' | 'rewind'
       rules: Shaped<{ text: string; isOn: boolean }[]>

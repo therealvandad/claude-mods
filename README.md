@@ -19,7 +19,7 @@ Start with the set below. `cockpit` needs `motion` and `settings`; install those
 | Mod | What it does | Tests |
 | --- | --- | --- |
 | `cockpit` | One tabbed cockpit pane (overview, tool timeline, files, todo, history, errors, links, palette) plus a git/spend band, forecasts, shelves and pins | 97 |
-| `helpers` | Quiet helpers: plain-words approvals, delete preview, secret and commit guards, changes and steps panels, time and cost under replies, welcome-back summary, right-click extras, notes and /quietmode | 12 |
+| `helpers` | Quiet helpers: plain-words approvals, delete preview, secret and commit guards, changes and steps panels, time and cost under replies, welcome-back summary, right-click extras, notes and /quietmode | 13 |
 | `sidekick` | Claim checker, loose ends, standing rules, prompt queue, daily summary, project card, running servers, file rewind, sensitive-file and branch warnings, right-click teach and prove | 7 |
 | `motion` | Calm motion for the interface: eased gauges, number tickers, status typing and pulse, tool-row shimmer and check pops, spring timer ring, idle breathing, test celebration, and a /motion on\|off switch | 25 |
 | `settings` | Shared look-and-feel settings (accent, density, icons, preset) that other mods can read; /cfg to change them | 46 |
@@ -52,7 +52,7 @@ Start with the set below. `cockpit` needs `motion` and `settings`; install those
 
 ### One settings panel
 
-`/mmsettings` (from `mod-manager`) shows the switches of the mods above in one place. Each mod draws its own section.
+`/mmsettings` (from `mod-manager`) shows the switches of the mods above in one place. Each mod draws its own section. It has one-press presets (Calm, Careful, Everything), a search box, a picture of each premium look and dropdowns for theme, text size, glass and corners.
 
 ### What `sidekick` adds
 
@@ -111,7 +111,7 @@ These are extras. Many overlap, and installing them all at once makes the app cl
 ## Status
 
 - Built and tested on macOS with Claude Code 2.1.330. Other systems are untested.
-- 2273 automated tests across 48 mods pass; 2 mods have no tests. Tests do not paint the screen, so a passing mod can still look wrong in the app.
+- 2274 automated tests across 48 mods pass; 2 mods have no tests. Tests do not paint the screen, so a passing mod can still look wrong in the app.
 - The safety mods (`tool-guard`, `safety-pro`, `controls`, `control-kit`) and the guards in `helpers` are aids, **not a security boundary**. Do not rely on them to stop a harmful command.
 - The marketplace is named `local-mods`.
 

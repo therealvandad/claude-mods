@@ -33,6 +33,7 @@ type Dollar = Parameters<Hook<'session.start'>>[0]
 // ---- state the drawings read ------------------------------------------------
 // `now` is written by the one shared ticker, and only while something animates.
 // A render reads it only on the branch that is animating, so settled UI never redraws.
+const panelQuery = atom({ plugin: 'motion', key: 'panelQuery' } as const, '')
 const nowA = atom({ plugin: 'motion', key: 'now' } as const, 0)
 const isOnA = atom({ plugin: 'motion', key: 'isOn' } as const, true)
 const gauges = atom({ plugin: 'motion', key: 'gauges' } as const, {}, { shape: 'gauges-1' })
@@ -461,23 +462,56 @@ const stateText = () =>
   `Motion is ${motionOn ? 'on' : 'off'}. Usage: /motion on | off | demo | timer <minutes> | timer off`
 
 // ---- the mod -----------------------------------------------------------------
+const applyPreset = async (d: Dollar, name: string) => {
+  if (name === 'calm' || name === 'everything') {
+    await setMotion(d, name === 'everything')
+  }
+}
+
 export const register: Register = on => {
   // This mod's own section in the shared "Mod manager" settings panel.
   on('ui.render', { component: 'Pane', plugin: '*', requestId: 'mod-settings' }, async ($, e, next) => {
     const { Box, Text, Button } = $.ui.resolve(e)
     const moving = await read($, isOnA)
+    const query = await read($, panelQuery)
+    const hit = (label: string) => query === '' || label.toLowerCase().includes(query)
+    const Row = (key: string, label: string, value: string, press: () => unknown) =>
+      hit(label) ? (
+        <Box justifyContent="space-between" gap="sm">
+          <Text>{label}</Text>
+          <Button key={key} variant={value === 'On' ? 'primary' : undefined} label={value} onPress={press} />
+        </Box>
+      ) : null
+    const rows = [
+      Row('mo-on', 'Motion', moving ? 'On' : 'Off', () => setMotion($, !moving)),
+    ].filter(Boolean)
 
     return (
       <Box flexDirection="column">
         {await next(e)}
-        <Box flexDirection="column" marginTop="md">
-          <Text weight="bold">Animation (motion)</Text>
-          <Box gap="sm" flexWrap="wrap">
-            <Button key="mo-on" label={`Motion: ${moving ? 'on' : 'off'}`} onPress={() => setMotion($, !moving)} />
+        {rows.length > 0 && (
+          <Box flexDirection="column" marginTop="md" gap="sm">
+            <Text weight="bold">Animation</Text>
+            {rows}
           </Box>
-        </Box>
+        )}
       </Box>
     )
+  })
+
+  // The panel's search box and preset buttons belong to mod-manager; this mod follows them.
+  on('ui.input', { plugin: 'mod-manager', element: 'find-setting' }, async ($, e, next) => {
+    const done = await next(e)
+    await update($, panelQuery, () => String((e as unknown as { value?: unknown }).value ?? '').toLowerCase().trim())
+
+    return done
+  })
+
+  on('ui.press', { plugin: 'mod-manager', element: /^preset-(calm|careful|everything)$/ }, async ($, e, next) => {
+    const done = await next(e)
+    await applyPreset($, String((e as unknown as { element?: unknown }).element ?? '').replace('preset-', ''))
+
+    return done
   })
 
   on('session.start', async ($, e, next) => {

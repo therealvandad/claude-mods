@@ -1,6 +1,6 @@
 {
   "name": "sidekick",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "types": "./types/index.d.ts",
   "description": "Claim checker, loose ends, standing rules, prompt queue, daily summary, project card, running servers, file rewind, sensitive-file and branch warnings, right-click teach and prove"
 }

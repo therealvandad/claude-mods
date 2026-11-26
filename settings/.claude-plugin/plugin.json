@@ -1,6 +1,6 @@
 {
   "name": "settings",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Shared look-and-feel settings (accent, density, icons, preset) and per-mod feature switches (pop-ups, sounds, status line, rows above the prompt) that other mods can read; /cfg to change them",
   "types": "./types/index.d.ts"
 }

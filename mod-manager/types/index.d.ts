@@ -31,6 +31,8 @@ export type Bundles = Record<string, string[]>
 declare module 'claude-code' {
   interface PluginState {
     'mod-manager': {
+      query: string
+      preset: Shaped<{ name: string; at: number }>
       tab: Tab
       page: number
       category: string

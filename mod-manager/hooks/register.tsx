@@ -1,5 +1,5 @@
 import { atom, read, update } from 'claude-code'
-import type { Hook, Register } from 'claude-code'
+import type { ElementTable, Hook, Register } from 'claude-code'
 
 import type { SwitchView } from './pure'
 import type { Bundles, CliState, Installed, InstalledState, LogEntry, Pending, RemoteResult, Step, Tab } from '../types'
@@ -84,6 +84,11 @@ const TABS: readonly (readonly [Tab, string])[] = [
 
 // ------------------------------------------------------------------ state
 
+const queryA = atom({ plugin: 'mod-manager', key: 'query' } as const, '')
+const presetA = atom({ plugin: 'mod-manager', key: 'preset' } as const, { name: '', at: 0 }, { shape: 'preset-1' })
+
+const BANNER =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 76" width="420" height="76"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a3fc4"/><stop offset="1" stop-color="#0d7f76"/></linearGradient></defs><rect width="420" height="76" rx="14" fill="url(#g)"/><path d="M0 58C80 26 150 74 240 44S360 20 420 40L420 58C340 44 300 76 220 66S90 52 0 76Z" fill="#ffffff" fill-opacity="0.12"/><text x="20" y="35" font-family="-apple-system, sans-serif" font-size="22" font-weight="600" fill="#ffffff">Mod manager</text><text x="20" y="57" font-family="-apple-system, sans-serif" font-size="13" fill="#e8e6ff">Settings for your mods</text></svg>'
 const tabA = atom({ plugin: 'mod-manager', key: 'tab' } as const, 'catalog')
 const pageA = atom({ plugin: 'mod-manager', key: 'page' } as const, 0)
 const categoryA = atom({ plugin: 'mod-manager', key: 'category' } as const, 'all')
@@ -865,34 +870,64 @@ export const register: Register = on => {
     )
   })
 
-  // One panel for every mod's settings: this draws the heading, and each mod adds its own section.
+  // One panel for every mod's settings: this draws the top, and each mod adds its own section.
   on('ui.render', { component: 'Pane', requestId: 'mod-settings' }, async ($, e, next) => {
-    const { Box, Text, Button } = $.ui.resolve(e)
+    const ui = $.ui.resolve(e)
+    const { Box, Text, Button, Input } = ui
+    const Svg = e.surface === 'desktop' ? (ui as ElementTable<'desktop'>).Svg : undefined
+    const query = (await read($, queryA)).toLowerCase().trim()
+    const chosen = await read($, presetA)
     const fillIn = (text: string) => $.prompt.fill({ text, mode: 'replace' })
+    const find = (v: string) => update($, queryA, () => v)
+    const safety = (
+      [
+        ['Read-only mode', '/readonly'],
+        ['Dry run', '/dryrun'],
+        ['Spending limit', '/hardbudget 5'],
+        ['Safety log', '/safetylog'],
+      ] as const
+    ).filter(([label]) => query === '' || label.toLowerCase().includes(query))
 
     return (
       <Box flexDirection="column" padding="sm">
-        <Text size="heading" weight="bold">
-          Mod manager
-        </Text>
-        <Text dimColor>Settings of your switched-on mods. A change applies at once.</Text>
-        {await next(e)}
-        <Box flexDirection="column" marginTop="md">
-          <Text weight="bold">Safety</Text>
-          <Text dimColor>These put the command in the prompt box; you press Enter.</Text>
+        {Svg !== undefined ? (
+          <Svg source={BANNER} alt="Mod manager: settings for your mods" width={420} height={76} />
+        ) : (
+          <Text size="heading" weight="bold">
+            Mod manager
+          </Text>
+        )}
+        <Box flexDirection="column" marginTop="md" gap="sm">
+          <Text weight="bold">Presets</Text>
           <Box gap="sm" flexWrap="wrap">
-            {(
-              [
-                ['Read-only mode', '/readonly'],
-                ['Dry run', '/dryrun'],
-                ['Spending limit', '/hardbudget 5'],
-                ['Safety log', '/safetylog'],
-              ] as const
-            ).map(([label, command]) => (
-              <Button key={`safe-${command.split(' ')[0]}`} label={label} onPress={() => fillIn(command)} />
+            {(['calm', 'careful', 'everything'] as const).map(name => (
+              <Button
+                key={`preset-${name}`}
+                variant={chosen.name === name ? 'primary' : undefined}
+                label={`${name.charAt(0).toUpperCase()}${name.slice(1)}`}
+                onPress={async () => {
+                  const at = await $.clock.now()
+                  await update($, presetA, () => ({ name, at }))
+                }}
+              />
             ))}
           </Box>
+          <Text dimColor>Calm hides extras. Careful and Everything switch the checks back on. Safety mods are never switched off.</Text>
+          <Input key="find-setting" placeholder="Search settings" value={query} onInput={find} onSubmit={find} />
         </Box>
+        {await next(e)}
+        {safety.length > 0 && (
+          <Box flexDirection="column" marginTop="md" gap="sm">
+            <Text weight="bold">Safety</Text>
+            <Text dimColor>These put the command in the message box; you press Enter.</Text>
+            {safety.map(([label, command]) => (
+              <Box justifyContent="space-between" gap="sm">
+                <Text>{label}</Text>
+                <Button key={`safe-${command.split(' ')[0]}`} label={command} onPress={() => fillIn(command)} />
+              </Box>
+            ))}
+          </Box>
+        )}
       </Box>
     )
   })
