@@ -212,7 +212,7 @@
       "name": "mod-manager",
       "source": "./mod-manager",
       "description": "Front door for a collection of mods and other Claude plugins: catalog, installed list, bundles, remote update check, and install/enable/disable/update/uninstall command lines you can copy or run after a two-step confirm",
-      "version": "0.2.0"
+      "version": "0.3.0"
     },
     {
       "name": "visuals",

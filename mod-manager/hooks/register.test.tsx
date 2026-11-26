@@ -475,7 +475,7 @@ test('/mmreport has names, versions and status, and no path', async ($, on) => {
   await setup($, on)
   const report = await run($, 'mmreport')
 
-  expect(report).toContain('mod-manager 0.1.0 report')
+  expect(report).toMatch(/mod-manager \d+\.\d+\.\d+ report/)
   expect(report).toContain('third-party@other 2.0.0 [project] enabled')
   expect(report).toContain('alerts@local-mods 0.1.0 [user] disabled')
   expect(report).not.toContain(HOME)
